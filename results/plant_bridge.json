@@ -1,0 +1,177 @@
+{
+  "pin": "D1D38A",
+  "fold": "plant_host_v1",
+  "law": "S = K*(T1+T2+T3) clamped [-3,3]",
+  "d_eff": 8.224796345905053,
+  "n": 4.0,
+  "p": 1.618033988749895,
+  "gpu_channel": "gt_act_mhz/gt_max_mhz, not a utilization counter",
+  "v0_is": "idle sample taken before the two load runs",
+  "seeds_source": "fsot-pc-monitor/src/seeds.rs pin D1D38A",
+  "idle": {
+    "cpu_util": 0.11675126903553303,
+    "mem": 0.10971338024413593,
+    "gpu": {
+      "gt_cur_mhz": 650,
+      "gt_act_mhz": 350,
+      "gt_max_mhz": 1100,
+      "act_frac": 0.3181818181818182
+    },
+    "temps": {
+      "zone0_c": 53.0,
+      "Core 1": 53.0,
+      "Package id 0": 53.0,
+      "Core 0": 51.0
+    },
+    "temp": 53.0,
+    "meminfo_kib": {
+      "total": 15751880,
+      "avail": 14023688
+    },
+    "bridge": {
+      "f_cpu": 0.11675126903553303,
+      "f_mem": 0.10971338024413593,
+      "f_gpu": 0.3181818181818182,
+      "f_temp": 0,
+      "load": 0.1361616168653718,
+      "load_v0": 0.1361616168653718,
+      "delta_psi": 0.0,
+      "delta_theta": 0.0,
+      "recent_hits": 0.5446464674614871,
+      "rho": 0.10971338024413593,
+      "temp_c": 53.0,
+      "s_raw": 0.645402335859994,
+      "s_clamped": 0.645402335859994,
+      "collapse_code": 1,
+      "theta": 0.9174663774653723,
+      "s_ref_clamped": 0.6454314464330041,
+      "s_ref_raw": 0.6454314464330041,
+      "abs_s_minus_sref": 2.9110573010138197e-05,
+      "k": 0.4202216641606967,
+      "excursion": false
+    }
+  },
+  "cpu_scalar_load": {
+    "cpu_util": 0.9111111111111111,
+    "mem": 0.11534420018435895,
+    "gpu": {
+      "gt_cur_mhz": 350,
+      "gt_act_mhz": 350,
+      "gt_max_mhz": 1100,
+      "act_frac": 0.3181818181818182
+    },
+    "temps": {
+      "zone0_c": 65.0,
+      "Core 1": 53.0,
+      "Package id 0": 53.0,
+      "Core 0": 51.0
+    },
+    "temp": 53.0,
+    "meminfo_kib": {
+      "total": 15751880,
+      "avail": 13934992
+    },
+    "bench_stdout": "{\"threads\":4,\"n\":1048576,\"median_s\":0.064049,\"scalar_per_s\":16371349.551,\"sum\":3362353.52762220,\"s0\":0.07168321,\"s_last\":-93.36003123,\"cpu0_mhz\":2893}",
+    "bridge": {
+      "f_cpu": 0.9111111111111111,
+      "f_mem": 0.11534420018435895,
+      "f_gpu": 0.3181818181818182,
+      "f_temp": 0,
+      "load": 0.336159282369322,
+      "load_v0": 0.1361616168653718,
+      "delta_psi": 0.19999766550395023,
+      "delta_theta": 0.0,
+      "recent_hits": 1.344637129477288,
+      "rho": 0.11534420018435895,
+      "temp_c": 53.0,
+      "s_raw": 0.24020079490527915,
+      "s_clamped": 0.24020079490527915,
+      "collapse_code": 1,
+      "theta": 0.9174663774653723,
+      "s_ref_clamped": 0.6454314464330041,
+      "s_ref_raw": 0.6454314464330041,
+      "abs_s_minus_sref": 0.40523065152772497,
+      "k": 0.4202216641606967,
+      "excursion": false
+    },
+    "zone0_sensitivity": {
+      "note": "Same CPU-load sample. thermal_zone0 read 65 C while coretemp Package id 0 read 53 C. The bridge above used the coretemp package. This recomputes the bridge with thermal_zone0 and the same V0 of 53 C.",
+      "temp_c": 65.0,
+      "f_temp": 0.48,
+      "load": 0.456159282369322,
+      "delta_psi": 0.31999766550395026,
+      "delta_theta": 0.48,
+      "s_raw": 0.11384058282505283,
+      "s_clamped": 0.11384058282505283,
+      "abs_s_minus_sref": 0.5315908636079513,
+      "excursion": true,
+      "collapse_code": 1
+    }
+  },
+  "igpu_scalar_load": {
+    "cpu_util": 0.02857142857142858,
+    "mem": 0.12118121773401017,
+    "gpu": {
+      "gt_cur_mhz": 1100,
+      "gt_act_mhz": 1100,
+      "gt_max_mhz": 1100,
+      "act_frac": 1.0
+    },
+    "temps": {
+      "zone0_c": 60.0,
+      "Core 1": 54.0,
+      "Package id 0": 60.0,
+      "Core 0": 53.0
+    },
+    "temp": 60.0,
+    "meminfo_kib": {
+      "total": 15751880,
+      "avail": 13843048
+    },
+    "gt_act_samples_mhz": [
+      350,
+      350,
+      350,
+      350,
+      350,
+      350,
+      500,
+      1100
+    ],
+    "bench_stdout": "{\"ok\":true,\"backend\":\"intel-igpu-gl330\",\"renderer\":\"Mesa Intel(R) HD Graphics 4000 (IVB GT2)\",\"gl\":\"4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3\",\"side\":1024,\"samples\":1048576,\"reps\":50,\"fp16_target\":0,\"draw_ms\":754.467,\"readback_ms\":26.494,\"scalar_per_s\":69491161.649,\"checked\":16384,\"max_abs_err_vs_fp32\":1.818e-05,\"code_mismatch\":0,\"gt_cur_mhz\":800,\"gt_act_mhz\":800}",
+    "bridge": {
+      "f_cpu": 0.02857142857142858,
+      "f_mem": 0.12118121773401017,
+      "f_gpu": 1,
+      "f_temp": 0.28,
+      "load": 0.3574381615763597,
+      "load_v0": 0.1361616168653718,
+      "delta_psi": 0.22127654471098793,
+      "delta_theta": 0.28,
+      "recent_hits": 1.4297526463054389,
+      "rho": 0.12118121773401017,
+      "temp_c": 60.0,
+      "s_raw": 0.2080543567254894,
+      "s_clamped": 0.2080543567254894,
+      "collapse_code": 1,
+      "theta": 0.9174663774653723,
+      "s_ref_clamped": 0.6454314464330041,
+      "s_ref_raw": 0.6454314464330041,
+      "abs_s_minus_sref": 0.4373770897075147,
+      "k": 0.4202216641606967,
+      "excursion": true
+    }
+  },
+  "cold_start": {
+    "side32_reps80": {
+      "wall_s": 0.06759759499982465,
+      "draw_ms": 4.697,
+      "readback_ms": 0.05
+    },
+    "side1024_reps8": {
+      "wall_s": 0.29425153699958173,
+      "draw_ms": 124.641,
+      "readback_ms": 24.411
+    }
+  }
+}

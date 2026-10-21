@@ -1,0 +1,76 @@
+{
+  "gpu_draw_scales_with_reps": true,
+  "side": 1024,
+  "reps": [
+    {
+      "reps": 1,
+      "draw_ms": 22.941,
+      "readback_ms": 25.078,
+      "scalar_per_s": 45708249.761,
+      "gt_cur_mhz": 900,
+      "gt_act_mhz": 900
+    },
+    {
+      "reps": 2,
+      "draw_ms": 40.074,
+      "readback_ms": 22.034,
+      "scalar_per_s": 52331682.863,
+      "gt_cur_mhz": 1050,
+      "gt_act_mhz": 1050
+    },
+    {
+      "reps": 4,
+      "draw_ms": 66.921,
+      "readback_ms": 23.318,
+      "scalar_per_s": 62675178.736,
+      "gt_cur_mhz": 800,
+      "gt_act_mhz": 800
+    },
+    {
+      "reps": 8,
+      "draw_ms": 127.69,
+      "readback_ms": 23.754,
+      "scalar_per_s": 65695336.854,
+      "gt_cur_mhz": 1100,
+      "gt_act_mhz": 1100
+    },
+    {
+      "reps": 20,
+      "draw_ms": 307.088,
+      "readback_ms": 24.783,
+      "scalar_per_s": 68291508.37,
+      "gt_cur_mhz": 800,
+      "gt_act_mhz": 800,
+      "live_gt_act_mhz_included": [
+        1100,
+        1000,
+        650,
+        350
+      ]
+    },
+    {
+      "reps": 50,
+      "draw_ms": 754.467,
+      "readback_ms": 26.494,
+      "scalar_per_s": 69491161.649,
+      "max_abs_err_vs_fp32": 1.818e-05,
+      "code_mismatch": 0
+    }
+  ],
+  "cpu_o3_native_4thread_later_runs": [
+    {
+      "rounds": 15,
+      "median_s": 0.067737,
+      "scalar_per_s": 15480141.621,
+      "cpu0_mhz_after": 2898,
+      "live_cpu0_mostly_mhz": 2893,
+      "live_cpu0_peak_mhz": 3078
+    },
+    {
+      "rounds": 40,
+      "median_s": 0.064049,
+      "scalar_per_s": 16371349.551,
+      "cpu0_mhz_after": 2893
+    }
+  ]
+}

@@ -1,0 +1,333 @@
+{
+  "pin": "AEB2AD",
+  "law": "S = K*(T1+T2+T3)",
+  "hardware": {
+    "product": "Macmini6,1",
+    "board": "Mac-031AEE4D24BFF0B1",
+    "vendor": "Apple Inc.",
+    "cpu": "Intel Core i5-3210M",
+    "cpu_max_mhz": 3100,
+    "cores": 2,
+    "threads": 4,
+    "l3": "3 MiB",
+    "isa": "AVX, SSE4.2, no AVX2, no FMA",
+    "governor": "schedutil",
+    "gpu": "Intel HD Graphics 4000 (IVB GT2)",
+    "gpu_mhz": {
+      "min": 350,
+      "max": 1100
+    },
+    "ram_kib": 15751880,
+    "disk": "SanDisk SDSSDH3 1TB SATA SSD",
+    "kernel": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+    "os": "Ubuntu 26.04.1 LTS"
+  },
+  "plant_idle": {
+    "f_cpu": 0.069620253164557,
+    "f_mem": 0.0968971322788137,
+    "f_gpu": 0.3181818181818182,
+    "f_temp": 0.56,
+    "load": 0.26117480090629724,
+    "delta_psi": 0.26117480090629724,
+    "delta_theta": 0.56,
+    "recent_hits": 1.044699203625189,
+    "rho": 0.0968971322788137,
+    "temp_c": 59.0
+  },
+  "plant_after_load": {
+    "f_cpu": 0.9374193548387096,
+    "f_mem": 0.12159716808406362,
+    "f_gpu": 0.6363636363636364,
+    "f_temp": 0.72,
+    "load": 0.6038450398216024,
+    "delta_psi": 0.6038450398216024,
+    "delta_theta": 0.72,
+    "recent_hits": 2.4153801592864097,
+    "rho": 0.12159716808406362,
+    "temp_c": 63.0
+  },
+  "clocks_under_load": {
+    "cpu0_mhz_peak": 2906,
+    "gt_act_mhz_peak": 700,
+    "gt_cur_mhz_peak": 1000,
+    "temp_c_after": 63.0
+  },
+  "cpu": [
+    {
+      "threads": 1,
+      "n": 1048576,
+      "median_s": 0.135975,
+      "scalar_per_s": 7711517.571,
+      "sum": 3362353.5276222,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 1197,
+      "flags": "o2"
+    },
+    {
+      "threads": 2,
+      "n": 1048576,
+      "median_s": 0.072774,
+      "scalar_per_s": 14408601.651,
+      "sum": 3362353.5276222,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 1197,
+      "flags": "o2"
+    },
+    {
+      "threads": 4,
+      "n": 1048576,
+      "median_s": 0.060488,
+      "scalar_per_s": 17335332.15,
+      "sum": 3362353.5276222,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 2824,
+      "flags": "o2"
+    },
+    {
+      "threads": 1,
+      "n": 1048576,
+      "median_s": 0.13535,
+      "scalar_per_s": 7747146.501,
+      "sum": 3362353.5276222,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 2817,
+      "flags": "o3_native"
+    },
+    {
+      "threads": 2,
+      "n": 1048576,
+      "median_s": 0.0723,
+      "scalar_per_s": 14503151.741,
+      "sum": 3362353.5276222,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 1197,
+      "flags": "o3_native"
+    },
+    {
+      "threads": 4,
+      "n": 1048576,
+      "median_s": 0.059454,
+      "scalar_per_s": 17636675.167,
+      "sum": 3362353.5276222,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 2906,
+      "flags": "o3_native"
+    },
+    {
+      "threads": 1,
+      "n": 1048576,
+      "median_s": 0.119635,
+      "scalar_per_s": 8764789.908,
+      "sum": 3362353.5276225,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 2024,
+      "flags": "o3_native_fast"
+    },
+    {
+      "threads": 2,
+      "n": 1048576,
+      "median_s": 0.064624,
+      "scalar_per_s": 16225851.443,
+      "sum": 3362353.5276225,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 2893,
+      "flags": "o3_native_fast"
+    },
+    {
+      "threads": 4,
+      "n": 1048576,
+      "median_s": 0.05202,
+      "scalar_per_s": 20157041.286,
+      "sum": 3362353.5276225,
+      "s0": 0.07168321,
+      "s_last": -93.36003123,
+      "cpu0_mhz": 2893,
+      "flags": "o3_native_fast"
+    }
+  ],
+  "igpu": [
+    {
+      "ok": true,
+      "backend": "intel-igpu-gl330",
+      "renderer": "Mesa Intel(R) HD Graphics 4000 (IVB GT2)",
+      "gl": "4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3",
+      "side": 32,
+      "samples": 1024,
+      "reps": 80,
+      "fp16_target": 0,
+      "draw_ms": 4.675,
+      "readback_ms": 0.053,
+      "scalar_per_s": 17522469.915,
+      "checked": 16,
+      "max_abs_err_vs_fp32": 1.705e-05,
+      "code_mismatch": 0,
+      "gt_cur_mhz": 350,
+      "gt_act_mhz": 350
+    },
+    {
+      "ok": true,
+      "backend": "intel-igpu-gl330",
+      "renderer": "Mesa Intel(R) HD Graphics 4000 (IVB GT2)",
+      "gl": "4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3",
+      "side": 64,
+      "samples": 4096,
+      "reps": 40,
+      "fp16_target": 0,
+      "draw_ms": 8.254,
+      "readback_ms": 0.102,
+      "scalar_per_s": 19850688.51,
+      "checked": 64,
+      "max_abs_err_vs_fp32": 1.794e-05,
+      "code_mismatch": 0,
+      "gt_cur_mhz": 350,
+      "gt_act_mhz": 350
+    },
+    {
+      "ok": true,
+      "backend": "intel-igpu-gl330",
+      "renderer": "Mesa Intel(R) HD Graphics 4000 (IVB GT2)",
+      "gl": "4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3",
+      "side": 128,
+      "samples": 16384,
+      "reps": 20,
+      "fp16_target": 0,
+      "draw_ms": 14.644,
+      "readback_ms": 0.487,
+      "scalar_per_s": 22377047.792,
+      "checked": 256,
+      "max_abs_err_vs_fp32": 1.812e-05,
+      "code_mismatch": 0,
+      "gt_cur_mhz": 400,
+      "gt_act_mhz": 400
+    },
+    {
+      "ok": true,
+      "backend": "intel-igpu-gl330",
+      "renderer": "Mesa Intel(R) HD Graphics 4000 (IVB GT2)",
+      "gl": "4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3",
+      "side": 256,
+      "samples": 65536,
+      "reps": 12,
+      "fp16_target": 0,
+      "draw_ms": 19.26,
+      "readback_ms": 1.626,
+      "scalar_per_s": 40831402.349,
+      "checked": 1024,
+      "max_abs_err_vs_fp32": 1.818e-05,
+      "code_mismatch": 0,
+      "gt_cur_mhz": 700,
+      "gt_act_mhz": 700
+    },
+    {
+      "ok": true,
+      "backend": "intel-igpu-gl330",
+      "renderer": "Mesa Intel(R) HD Graphics 4000 (IVB GT2)",
+      "gl": "4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3",
+      "side": 512,
+      "samples": 262144,
+      "reps": 8,
+      "fp16_target": 0,
+      "draw_ms": 43.59,
+      "readback_ms": 5.738,
+      "scalar_per_s": 48110480.268,
+      "checked": 4096,
+      "max_abs_err_vs_fp32": 1.818e-05,
+      "code_mismatch": 0,
+      "gt_cur_mhz": 800,
+      "gt_act_mhz": 350
+    },
+    {
+      "ok": true,
+      "backend": "intel-igpu-gl330",
+      "renderer": "Mesa Intel(R) HD Graphics 4000 (IVB GT2)",
+      "gl": "4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3",
+      "side": 768,
+      "samples": 589824,
+      "reps": 4,
+      "fp16_target": 0,
+      "draw_ms": 44.205,
+      "readback_ms": 12.527,
+      "scalar_per_s": 53371142.236,
+      "checked": 9216,
+      "max_abs_err_vs_fp32": 1.818e-05,
+      "code_mismatch": 0,
+      "gt_cur_mhz": 800,
+      "gt_act_mhz": 350
+    },
+    {
+      "ok": true,
+      "backend": "intel-igpu-gl330",
+      "renderer": "Mesa Intel(R) HD Graphics 4000 (IVB GT2)",
+      "gl": "4.2 (Core Profile) Mesa 26.0.8-1ubuntu0.3",
+      "side": 1024,
+      "samples": 1048576,
+      "reps": 3,
+      "fp16_target": 0,
+      "draw_ms": 49.578,
+      "readback_ms": 23.171,
+      "scalar_per_s": 63450694.255,
+      "checked": 16384,
+      "max_abs_err_vs_fp32": 1.818e-05,
+      "code_mismatch": 0,
+      "gt_cur_mhz": 1000,
+      "gt_act_mhz": 350
+    }
+  ],
+  "python": {
+    "n": 200000,
+    "seconds": 0.734279668000454,
+    "scalar_per_s": 272375.7836637748,
+    "sum": 640372.5892053852
+  },
+  "notes": [
+    "CPU numbers are FP64 archive evaluations per second. Threads stay up; the median is 5 rounds of 2^20 samples and does not include thread startup.",
+    "iGPU numbers are FP32 fragment-shader evaluations per second, draw plus finish, readback excluded.",
+    "The plant GPU channel is a clock ratio (gt_act or gt_cur over gt_max). This iGPU has no utilization counter in sysfs.",
+    "plant_after_load f_cpu is peak cpu0 clock over cpuinfo_max, sampled at the end of each CPU round. It is not a /proc/stat utilization.",
+    "Spectre/Meltdown mitigations were left on.",
+    "plant_idle and plant_after_load use a 45 C stand-in and, after the sweep, a CPU clock ratio. The plant_host_v1 result with a measured idle V0 is plant_bridge.json on pin D1D38A. Throughput rows are pin AEB2AD and are not clamped to [-3,3]."
+  ],
+  "official_bench_cpp": [
+    {
+      "type": "double",
+      "engine_init_s": 5.918597e-06,
+      "domains35_s": 6.137301e-06,
+      "sections_all_s": 0.0001191825,
+      "one_scalar_s": 1.238737e-07
+    },
+    {
+      "type": "long double",
+      "engine_init_s": 1.000579e-05,
+      "domains35_s": 3.671028e-05,
+      "sections_all_s": 0.0001471722,
+      "one_scalar_s": 8.312854e-07
+    },
+    {
+      "type": "__float128",
+      "engine_init_s": 0.896262,
+      "domains35_s": 0.0004325453,
+      "sections_all_s": 0.0005001189,
+      "one_scalar_s": 1.263039e-05
+    },
+    {
+      "type": "cpp_bin_float<169>",
+      "engine_init_s": 0.0009338381,
+      "domains35_s": 0.004838859,
+      "sections_all_s": 0.004328119,
+      "one_scalar_s": 0.0001398127
+    },
+    {
+      "type": "trit",
+      "similarity_4096x256_ref_s": 0.005551084,
+      "similarity_4096x256_packed_s": 6.655994e-05
+    }
+  ]
+}
