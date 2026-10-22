@@ -2,6 +2,24 @@
 
 Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. The newest pass is first. The sections under it are the earlier passes, with their recorded numbers left as they were.
 
+## Q6_K on the same pin
+
+Measured on 22 Oct 2026. Same Mac mini, same `schedutil` governor, same mitigations. The file is `gemma-4-E4B-it-Q6_K.gguf`, 7,074,929,792 bytes, sha256 `fd83f3ef44d22e00ff0f638753dde9a66a83e8ccf79c11024f47d383c489531b`. It is not in git. llama-bench reports 7,059,101,864 weight bytes.
+
+Generation used two threads, one pinned to each physical core, mask `0x3`, strict placement, batch 512, ubatch 512, flash attention auto. Thirty-two tokens, two repetitions, no warmup: 3.072 t/s. The samples were 3.059 and 3.084 t/s. Across that bench and the three proposals below, 58 samples of the four-core mean ran from 2481 to 2930 MHz, median 2893. The lowest single core was 2354 MHz. No reading was under 1500 MHz. `schedutil` was the governor at the start and at the end.
+
+If every weight byte is read once per token, 3.072 t/s is 21.68 GB/s. That is above the 16.523 GB/s read and the 19.954 GB/s peak already recorded. A stream was not repeated beside this bench, so those stream numbers stay as they are.
+
+llama-cli kept that generation pin and used all four logical CPUs for the prompt. The epoch-7 adapter was at user scale 1, temperature 0, the epoch-7 chat template, thinking off. Each run exited 0. A following verbose load of the same pair logged alpha 32, a 41.56 MiB LoRA buffer, and 336 tensors. The client rates are one decimal.
+
+| Row | Reply | Engine value | Percent error | z |
+|--|--|--:|--:|--:|
+| fine-structure | `1/(e^2*pi^2)` | 0.01371233108610463 | 87.908 | 5.861e9 |
+| N_eff | `1 + 1 + 1` | 3 | 1.510 | 45.77 |
+| w0_cmb | `-P_new/P_base` | -1.414213562373095 | 37.302 | 12.32 |
+
+All three passed the gate and were killed as outside the published bar. Prompt rates were 7.2, 7.3, and 7.3 t/s. Generation was 3.0 t/s on each. The Q4 replies for these rows were `1/(e^2*pi^2/3)`, `pi^2/6 + e - ln(2)`, and `-P_new*P_cmb/pi`. The trainer lines were not what this file printed. Nothing was sent and nothing was promoted.
+
 ## Pin one thread to each physical core
 
 Measured on 22 Oct 2026, after the memory-bus section below. Same Mac mini, same `schedutil` governor, same mitigations, same Q4_K_M file. The memory-lock limit is 8192 KB, so the 4.7 GB weight file was not locked.
