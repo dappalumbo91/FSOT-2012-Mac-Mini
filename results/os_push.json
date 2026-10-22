@@ -3,7 +3,7 @@
   "branch": "os-push",
   "host": "Macmini6,1",
   "governor": "schedutil",
-  "note": "Same 2^20 input batch and pin AEB2AD as results/study.json. cpu0_mhz is a sample after the timed section. The ref rows are the published scalar, run again in this session. The ours rows use FSOT's own AVX series and were measured after the libmvec rows.",
+  "note": "Same 2^20 input batch and pin AEB2AD as results/study.json. cpu0_mhz is a sample after the timed section. The ref rows are the published scalar, run again in this session. The ours rows use FSOT's own AVX series and were measured after the libmvec rows. The push rows are a later sitting the same day: sin and cos reduce by pi, and mode push also shortens the growth exp and skips the unobserved quirk cos. Rows tagged 5ae3c3e are a rerun of that commit's binary.",
   "ours": [
     {"compiler": "g++", "mode": "ours", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.029733, "scalar_per_s": 35266749.491, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
     {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.061494, "scalar_per_s": 17051667.638, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
@@ -15,6 +15,22 @@
     {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.065556, "scalar_per_s": 15995205.295, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893}
   ],
   "ours_probe": {"count": 449064, "max_abs_err": 1.281e-9, "at_D": 0.001, "at_dp": 7.8, "at_dth": -8, "at_rho": 3, "at_obs": 0, "ref_s_at_worst": -349992.91},
+  "push_probe": {"count": 449064, "max_abs_err": 9.895e-10, "at_D": 0.001, "at_dp": 7.8, "at_dth": -8, "at_rho": 3, "at_obs": 0, "at_hits": 0.3, "ref_s_at_worst": -349943.07, "push_max_abs_err": 9.895e-10, "push_ref_s": -349943.07},
+  "push": [
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.071125, "scalar_per_s": 14742676.827, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ours-5ae3c3e", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.030606, "scalar_per_s": 34260644.192, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ours", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.027547, "scalar_per_s": 38064476.877, "sum": 3362353.52762222, "ref_sum": 3362353.52762220, "max_abs_err": 2.629e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "push", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.022201, "scalar_per_s": 47231436.227, "sum": 3362353.52762222, "ref_sum": 3362353.52762220, "max_abs_err": 2.629e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "push", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.023607, "scalar_per_s": 44418707.795, "sum": 3362353.52762222, "ref_sum": 3362353.52762220, "max_abs_err": 2.629e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2927},
+    {"compiler": "g++", "mode": "push", "threads": 2, "n": 1048576, "rounds": 5, "median_s": 0.026230, "scalar_per_s": 39975975.742, "sum": 3362353.52762222, "ref_sum": 3362353.52762220, "max_abs_err": 2.629e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 3092},
+    {"compiler": "g++", "mode": "push", "threads": 1, "n": 1048576, "rounds": 5, "median_s": 0.047416, "scalar_per_s": 22114389.901, "sum": 3362353.52762222, "ref_sum": 3362353.52762220, "max_abs_err": 2.629e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ours", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.029145, "scalar_per_s": 35977375.251, "sum": 3362353.52762222, "ref_sum": 3362353.52762220, "max_abs_err": 2.629e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 1200},
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.063939, "scalar_per_s": 16399732.725, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.063548, "scalar_per_s": 16500537.885, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ours-5ae3c3e", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.030546, "scalar_per_s": 34327665.691, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2915},
+    {"compiler": "g++", "mode": "push", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.023448, "scalar_per_s": 44719517.424, "sum": 3362353.52762222, "ref_sum": 3362353.52762220, "max_abs_err": 2.629e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.063700, "scalar_per_s": 16461130.685, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2556}
+  ],
   "cpu": [
     {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.062953, "scalar_per_s": 16656389.749, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 1200},
     {"compiler": "g++", "mode": "tight", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.052629, "scalar_per_s": 19923880.143, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},

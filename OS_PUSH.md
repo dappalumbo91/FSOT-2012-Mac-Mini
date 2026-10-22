@@ -1,6 +1,32 @@
 # Another pass on the same Mac mini
 
-Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. This file is the record of that pass.
+Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. The newest pass is first. The sections under it are the earlier passes, with their recorded numbers left as they were.
+
+## One polynomial, and two skips the formula already had
+
+`sin` and `cos` now reduce by `π`. The remainder stays in `[−π/2, π/2]`, and each call evaluates one series: `sin` through `1/21!`, `cos` through `1/22!`. The other value is a sign, `(−1)^n`. The `π/2` split evaluated both polynomials, because those quadrants swap them.
+
+Mode `push` is that series plus two skips the folded scalar already had. The growth argument on this pin is about `2.88e-4`, so when every lane sits inside `[−0.02, 0.02]` the `exp` stops at `x^8/8!`. A wider lane uses the full `exp`. The observed-state cosine runs only when some lane has `obs > 0.5`. The timed batch sets `obs` to 0, so that factor is 1.
+
+`sqrt` is still the AVX instruction. Pin AEB2AD is unchanged. Mode `ours` keeps the full growth `exp` and always evaluates the observed-state cosine, so the `π` reduction can be timed on its own.
+
+Same 2^20 batch, median of 5 rounds, g++ `-O3 -march=native`. The published scalar and a rerun of the previous series binary were in this same sitting.
+
+| Mode | Threads | Per second | Max abs error vs the published scalar |
+|--|--:|--:|--:|
+| Published scalar | 4 | 16,500,538 | 0 |
+| Previous FSOT series, same sitting | 4 | 34,327,666 | 3.766e-13 |
+| `push` | 4 | 44,719,517 | 2.629e-13 |
+
+A published-scalar run just after that `push` landed at 16,461,131/s. The pair above is the comparison: 44,719,517 / 16,500,538 = 2.71×. Against the previous series binary between those two scalar runs, 44,719,517 / 34,327,666 = 1.30×.
+
+In the sitting just before, `push` landed at 47,231,436/s and then 44,418,708/s. One thread did 22,114,390/s and two threads did 39,975,976/s. Mode `ours`, the `π` reduction without the two skips, did 38,064,477/s beside the previous series at 34,260,644/s.
+
+The batch sum moved from `3362353.52762220` to `3362353.52762222`. Endpoints still print `0.07168321` and `-93.36003123`.
+
+On `[−64, 64]` the new `sin` and `cos` stay within `2.61e-15` of libm. The wider grid, the same 449,064 samples as the section below, has a largest absolute gap of `9.895e-10`, at `D = 0.001`, `delta_psi = 7.8`, `delta_theta = −8`, `rho = 3`, `obs = 0`, `hits = 0.3`. The published scalar there is `−349,943.07`, so that gap is a relative `2.8e-15`. Mode `push` matches mode `ours` on that grid.
+
+Use mode `push` for throughput. Keep the published scalar when the check has to be bit-exact.
 
 ## FSOT's own exp, log, sin, and cos
 

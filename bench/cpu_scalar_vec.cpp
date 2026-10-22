@@ -3,6 +3,7 @@
 // mode tight — same math with loop-invariant terms folded
 // mode vec   — tight math, AVX x4 through glibc libmvec
 // mode ours  — tight math, AVX x4 through FSOT's own exp/log/sin/cos
+// mode push  — ours, plus a short growth exp and no quirk cos when obs is off
 // mode pin   — vec, each worker pinned to cpu 0..threads-1
 // The clock starts after the pool is up and after AoS data is transposed.
 // Governor and mitigations are not touched.
@@ -137,11 +138,15 @@ static double scalar_tight(const In& a, const Fold& f) {
 }
 
 // Same folded scalar, with FSOT's own exp, log, sin, and cos.
-static double scalar_ours(const In& a, const Fold& f) {
+// Push uses the short exp on the growth argument. The quirk cos is already skipped
+// here when obs is off; the vector path has to ask for that skip explicitly.
+template <bool Push>
+static double scalar_fsot(const In& a, const Fold& f) {
     double N = a.N < 1e-6 ? 1e-6 : a.N;
     double D = a.D < 1e-6 ? 1e-6 : a.D;
     double h = a.hits / N;
-    double growth = fsot_exp_d(f.agp * (1.0 - h));
+    double growth_arg = f.agp * (1.0 - h);
+    double growth = Push ? fsot_exp_small_arg_d(growth_arg) : fsot_exp_d(growth_arg);
     double inv_sqrt = 1.0 / std::sqrt(D);
     double geom = N * a.P * inv_sqrt;
     double base = geom
@@ -159,6 +164,9 @@ static double scalar_ours(const In& a, const Fold& f) {
         * f.valve_wave;
     return f.k * (t1 + t2 + valve * acoustic * f.phase);
 }
+
+static double scalar_ours(const In& a, const Fold& f) { return scalar_fsot<false>(a, f); }
+static double scalar_push(const In& a, const Fold& f) { return scalar_fsot<true>(a, f); }
 
 extern "C" {
 __m256d _ZGVcN4v_cos(__m256d);
@@ -222,7 +230,7 @@ static inline __m256d vcos(__m256d x) {
     else return _ZGVcN4v_cos(x);
 }
 
-template <bool Ours>
+template <bool Ours, bool Push = false>
 static void work_vec(const Soa& s, double* out, size_t b, size_t e, const Fold& f) {
     const __m256d vmin = _mm256_set1_pd(1e-6);
     const __m256d vone = _mm256_set1_pd(1.0);
@@ -259,7 +267,8 @@ static void work_vec(const Soa& s, double* out, size_t b, size_t e, const Fold& 
         __m256d trend = _mm256_loadu_pd(&s.trend[i]);
         __m256d obs = _mm256_loadu_pd(&s.obs[i]);
         __m256d h = _mm256_div_pd(hits, N);
-        __m256d growth = vexp<Ours>(_mm256_mul_pd(vagp, _mm256_sub_pd(vone, h)));
+        __m256d growth_arg = _mm256_mul_pd(vagp, _mm256_sub_pd(vone, h));
+        __m256d growth = Push ? fsot_exp_small_arg(growth_arg) : vexp<Ours>(growth_arg);
         __m256d inv_sqrt = _mm256_div_pd(vone, _mm256_sqrt_pd(D));
         __m256d geom = _mm256_mul_pd(_mm256_mul_pd(N, P), inv_sqrt);
         __m256d base = _mm256_mul_pd(
@@ -268,9 +277,11 @@ static void work_vec(const Soa& s, double* out, size_t b, size_t e, const Fold& 
                 vexp<Ours>(_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_sub_pd(_mm256_setzero_pd(), valpha), h), rho), _mm256_mul_pd(vb_in, dp))),
                 _mm256_add_pd(vone, _mm256_mul_pd(growth, vc_eff))));
         __m256d t1 = _mm256_mul_pd(base, _mm256_add_pd(vone, _mm256_mul_pd(vp_new, vlog<Ours>(_mm256_div_pd(D, v25)))));
-        __m256d quirk = _mm256_mul_pd(vobs, vcos<Ours>(_mm256_add_pd(dp, vp_var)));
         __m256d mask = _mm256_cmp_pd(obs, vhalf, _CMP_GT_OQ);
-        t1 = _mm256_mul_pd(t1, _mm256_blendv_pd(vone, quirk, mask));
+        if (!Push || _mm256_movemask_pd(mask) != 0) {
+            __m256d quirk = _mm256_mul_pd(vobs, vcos<Ours>(_mm256_add_pd(dp, vp_var)));
+            t1 = _mm256_mul_pd(t1, _mm256_blendv_pd(vone, quirk, mask));
+        }
         __m256d t2 = _mm256_add_pd(_mm256_mul_pd(scale, amp), trend);
         __m256d sn = vsin<Ours>(dth);
         __m256d acoustic = _mm256_add_pd(vone, _mm256_mul_pd(
@@ -285,7 +296,7 @@ static void work_vec(const Soa& s, double* out, size_t b, size_t e, const Fold& 
     for (; i < e; ++i) {
         In a{s.N[i], s.P[i], s.D[i], s.dp[i], s.hits[i], s.rho[i], s.dth[i],
              s.scale[i], s.amp[i], s.trend[i], s.obs[i]};
-        out[i] = Ours ? scalar_ours(a, f) : scalar_tight(a, f);
+        out[i] = Push ? scalar_push(a, f) : (Ours ? scalar_ours(a, f) : scalar_tight(a, f));
     }
 }
 
@@ -304,7 +315,8 @@ int main(int argc, char** argv) {
     if (threads < 1) threads = 1;
     if (threads > 16) threads = 16;
     if (n < 1024) n = 1024;
-    bool ours = std::strcmp(mode, "ours") == 0 || std::strcmp(mode, "ours-pin") == 0;
+    bool push = std::strcmp(mode, "push") == 0;
+    bool ours = push || std::strcmp(mode, "ours") == 0 || std::strcmp(mode, "ours-pin") == 0;
     bool vec = ours || std::strcmp(mode, "vec") == 0 || std::strcmp(mode, "pin") == 0;
     bool pin = std::strcmp(mode, "pin") == 0 || std::strcmp(mode, "ours-pin") == 0;
     bool tight = std::strcmp(mode, "tight") == 0 || vec;
@@ -314,7 +326,8 @@ int main(int argc, char** argv) {
         const double rhos[] = {-2, 0, 1, 3};
         const double obs[] = {0, 1};
         const double hits_scale[] = {0, 0.3, 2};
-        double max_abs = 0, at_d = 0, at_dp = 0, at_dth = 0, at_rho = 0, at_obs = 0;
+        double max_abs = 0, push_abs = 0, at_d = 0, at_dp = 0, at_dth = 0, at_rho = 0, at_obs = 0, at_hits = 0;
+        double ref_worst = 0, push_ref = 0;
         long long count = 0;
         for (double D : Ds) {
             for (double rho : rhos) {
@@ -325,14 +338,22 @@ int main(int argc, char** argv) {
                                 double dp = idp * 0.2;
                                 double dth = idt * 0.5;
                                 In a{2.0, 0.5, D, dp, hs, rho, dth, 0.5, 1.0, 0.0, ob};
-                                double err = std::fabs(scalar_ours(a, fold) - scalar_ref(a));
+                                double ref = scalar_ref(a);
+                                double err = std::fabs(scalar_ours(a, fold) - ref);
+                                double perr = std::fabs(scalar_push(a, fold) - ref);
                                 if (err > max_abs) {
                                     max_abs = err;
+                                    ref_worst = ref;
                                     at_d = D;
                                     at_dp = dp;
                                     at_dth = dth;
                                     at_rho = rho;
                                     at_obs = ob;
+                                    at_hits = hs;
+                                }
+                                if (perr > push_abs) {
+                                    push_abs = perr;
+                                    push_ref = ref;
                                 }
                                 ++count;
                             }
@@ -342,8 +363,9 @@ int main(int argc, char** argv) {
             }
         }
         std::printf("{\"mode\":\"probe\",\"count\":%lld,\"max_abs_err\":%.3e,"
-                    "\"at_D\":%.6g,\"at_dp\":%.6g,\"at_dth\":%.6g,\"at_rho\":%.6g,\"at_obs\":%.0f}\n",
-                    count, max_abs, at_d, at_dp, at_dth, at_rho, at_obs);
+                    "\"at_D\":%.6g,\"at_dp\":%.6g,\"at_dth\":%.6g,\"at_rho\":%.6g,\"at_obs\":%.0f,"
+                    "\"ref_s_at_worst\":%.8g,\"at_hits\":%.6g,\"push_max_abs_err\":%.3e,\"push_ref_s\":%.8g}\n",
+                    count, max_abs, at_d, at_dp, at_dth, at_rho, at_obs, ref_worst, at_hits, push_abs, push_ref);
         return 0;
     }
     std::vector<In> in(n);
@@ -363,7 +385,8 @@ int main(int argc, char** argv) {
             if (t == threads - 1) e = n;
             auto run = [&] {
                 if (b >= n) return;
-                if (ours) work_vec<true>(soa, out.data(), b, e, fold);
+                if (push) work_vec<true, true>(soa, out.data(), b, e, fold);
+                else if (ours) work_vec<true>(soa, out.data(), b, e, fold);
                 else if (vec) work_vec<false>(soa, out.data(), b, e, fold);
                 else if (tight) work_tight(in.data(), out.data(), b, e, fold);
                 else work_ref(in.data(), out.data(), b, e);
