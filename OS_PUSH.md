@@ -2,6 +2,31 @@
 
 Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. The newest pass is first. The sections under it are the earlier passes, with their recorded numbers left as they were.
 
+## Gemma 4, four threads, and the epoch-7 adapter
+
+Measured on 22 Oct 2026. Same Mac mini, same `schedutil` governor, same mitigations, same Q4_K_M file as the section below. llama.cpp 0.7.0, build `b1-620d222`, CPU only. Across the sweep the cores stayed between 2893 and 2897 MHz. Across the two proposals they stayed at 2893 MHz. `schedutil` was the governor at the start and at the end.
+
+llama-bench loaded the model once. A 256-token prompt and a 32-token generation were timed apart, two repetitions each, batch 512.
+
+| Threads | ubatch | Prompt t/s | Generation t/s |
+|--:|--:|--:|--:|
+| 2 | 128 | 7.20 | 3.62 |
+| 4 | 128 | 7.78 | 3.59 |
+| 2 | 512 | 7.65 | 3.60 |
+| 4 | 512 | 7.92 | 3.61 |
+
+Four threads and ubatch 512 are the fast prompt row, 7.92 t/s beside 7.20 t/s at two threads and ubatch 128. Generation stays inside 3.59 to 3.62 t/s. The standard deviation on those generation means is 0.004 to 0.023 t/s. The eight tests shared one load, so the weights were already resident.
+
+The proposal check is llama-cli at four threads, batch 512, ubatch 512, context 1024, temperature 0, thinking off, up to 128 new tokens. Temperature 0 is the dial's greedy setting. The prompt is the fine-structure row, measured 0.0072973525643. That training prompt prints `PUBLISHED_UNCERTAINTY_PCT: 1.5e-08` and `BAR_SOURCE: sigma_equivalent`.
+
+Base weights: `PROPOSAL: $\frac{e^2}{4\pi\epsilon_0 \hbar c}$`. Prompt 6.5 t/s, generation 3.0 t/s. The hub gate rejected `$`, `\`, `{`, and `}`. The engine computed no value.
+
+The epoch-7 adapter is a separate GGUF, 43,604,480 bytes, sha256 `af9aabf659472b274504d5aecda0a996e346d916f00bb98ee12f4b49de129bab`. It is the math-si `adapter-epoch7` LoRA, rank 16, alpha 32, on attention q, k, v, and output. The file is not in this repo. The scored run passed `--lora` and exited 0. A following load of that same file logged 336 tensors, alpha 32, and a 41.56 MiB CPU buffer.
+
+With the adapter the greedy line was `PROPOSAL: 1/(e^2*pi^2/3)`. Prompt 6.7 t/s, generation 2.8 t/s. The gate accepted the line. The pinned engine computed 0.0411369932583139. The percent error against 0.0072973525643 is 463.7. `kill_metric` treats the printed 1.5e-08 as a published bar, and z is 3.09e10, so the row is killed. The stored training completion is `1/(e^3*phi^4 - psi_con - (POOF*SUCTION)^2*(C_factor^2/P_base))`. Nothing was sent and nothing was promoted.
+
+llama-cli generation after this prompt is 3.0 t/s on the base weights. The section below recorded 3.0 and 3.1 t/s on its own prompts. The bench generation column above is the empty-cache measurement.
+
 ## One polynomial, and two skips the formula already had
 
 `sin` and `cos` now reduce by `π`. The remainder stays in `[−π/2, π/2]`, and each call evaluates one series: `sin` through `1/21!`, `cos` through `1/22!`. The other value is a sign, `(−1)^n`. The `π/2` split evaluated both polynomials, because those quadrants swap them.
