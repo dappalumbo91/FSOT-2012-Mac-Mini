@@ -1,0 +1,27 @@
+{
+  "measured": "2026-10-21",
+  "branch": "os-push",
+  "host": "Macmini6,1",
+  "governor": "schedutil",
+  "note": "Same 2^20 input batch and pin AEB2AD as results/study.json. cpu0_mhz is a sample after the timed section. The ref rows are the published scalar, run again in this session.",
+  "cpu": [
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.062953, "scalar_per_s": 16656389.749, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 1200},
+    {"compiler": "g++", "mode": "tight", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.052629, "scalar_per_s": 19923880.143, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "vec", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.033174, "scalar_per_s": 31608037.379, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.695e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "pin", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.033764, "scalar_per_s": 31056054.411, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.695e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2901},
+    {"compiler": "g++", "mode": "vec", "threads": 1, "n": 1048576, "rounds": 5, "median_s": 0.068571, "scalar_per_s": 15291786.536, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.695e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 3092},
+    {"compiler": "g++", "mode": "vec", "threads": 2, "n": 1048576, "rounds": 5, "median_s": 0.044425, "scalar_per_s": 23603102.607, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.695e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.063166, "scalar_per_s": 16600355.021, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2989},
+    {"compiler": "g++", "mode": "vec", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.033817, "scalar_per_s": 31007316.398, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.695e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "clang++", "mode": "vec", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.034682, "scalar_per_s": 30233908.142, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.695e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 3010},
+    {"compiler": "clang++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.066621, "scalar_per_s": 15739483.402, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893}
+  ],
+  "igpu": [
+    {"shader": "archive", "side": 1024, "reps": 20, "draw_ms": 303.754, "readback_ms": 22.444, "scalar_per_s": 69041124.923, "max_abs_err_vs_fp32": 1.818e-05, "code_mismatch": 0, "gt_cur_mhz": 800, "gt_act_mhz": 800},
+    {"shader": "lean", "side": 1024, "reps": 20, "draw_ms": 303.404, "readback_ms": 21.978, "scalar_per_s": 69120814.304, "max_abs_err_vs_fp32": 1.818e-05, "code_mismatch": 0, "gt_cur_mhz": 1000, "gt_act_mhz": 1000},
+    {"shader": "archive", "side": 1024, "reps": 50, "draw_ms": 753.030, "readback_ms": 25.345, "scalar_per_s": 69623799.051, "max_abs_err_vs_fp32": 1.818e-05, "code_mismatch": 0, "gt_cur_mhz": 800, "gt_act_mhz": 350},
+    {"shader": "lean", "side": 1024, "reps": 50, "draw_ms": 790.462, "readback_ms": 22.667, "scalar_per_s": 66326754.532, "max_abs_err_vs_fp32": 1.818e-05, "code_mismatch": 0, "gt_cur_mhz": 1000, "gt_act_mhz": 1000},
+    {"shader": "archive", "side": 1024, "reps": 8, "draw_ms": 127.175, "readback_ms": 22.850, "scalar_per_s": 65961242.857, "max_abs_err_vs_fp32": 1.818e-05, "code_mismatch": 0, "gt_cur_mhz": 1000, "gt_act_mhz": 1000},
+    {"shader": "lean", "side": 1024, "reps": 8, "draw_ms": 121.579, "readback_ms": 22.612, "scalar_per_s": 68997319.532, "max_abs_err_vs_fp32": 1.818e-05, "code_mismatch": 0, "gt_cur_mhz": 1000, "gt_act_mhz": 1000}
+  ]
+}

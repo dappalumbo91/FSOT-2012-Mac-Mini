@@ -2,6 +2,8 @@
 
 Measured on 21 Oct 2026. Nothing here is copied from another machine's benchmark table.
 
+A later pass on the same day is in [OS_PUSH.md](OS_PUSH.md). It keeps this OS and this governor. The tables below are the original sweep.
+
 The fastest strict path is the C++ FP64 scalar on 4 threads, built with `-O3 -march=native`: **17.64 million evaluations per second** in the head-to-head sweep. Two later runs of that same binary landed at 16.37 and 15.48 million/s while the core sat near 2.89 GHz. Hyper-threading is worth using. `-march=native` by itself is not: it beat `-O2` by 1.7% at 4 threads, because this chip has AVX and SSE4.2 and does not have AVX2 or FMA, and the loop is libm.
 
 `-ffast-math` reached **20.16 million/s** in the same sweep, 14.3% above the strict 4-thread binary. The batch sum moved from `3362353.5276222` to `3362353.5276225`. The first and last samples matched at 8 decimal places (`0.07168321` and `-93.36003123`). That is safe for this input batch. The authority path stays the strict binary.

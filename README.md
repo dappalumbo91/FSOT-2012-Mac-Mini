@@ -2,11 +2,12 @@
 
 Measured FSOT scalar throughput and a `plant_host_v1` reading on this machine: Apple Macmini6,1 (Late 2012), Intel Core i5-3210M, Intel HD Graphics 4000, Ubuntu 26.04.1 LTS.
 
-The numbers are in [FINDINGS.md](FINDINGS.md). Raw records:
+The numbers are in [FINDINGS.md](FINDINGS.md). A later AVX pass on the same machine is in [OS_PUSH.md](OS_PUSH.md). Raw records:
 
 - `results/study.json` — CPU, iGPU, Python, and the official `FSOT-2.1-Cpp` bench
 - `results/validation.json` — repeated HD 4000 draws, to show the rate scales with work
 - `results/plant_bridge.json` — pin D1D38A plant fold on a measured idle anchor
+- `results/os_push.json` — AVX libmvec and the lean HD 4000 shader, same input batch
 
 Throughput uses the unclamped archive scalar, pin AEB2AD. The plant fold uses pin D1D38A and clamps `S` to `[-3, 3]`.
 

@@ -388,6 +388,78 @@ static const char *FS =
     "  frag = vec4(S, code, 0.0, 1.0);\n"
     "}\n";
 
+/* Same scalar. Constants that do not depend on the sample are folded,
+   and sin(dth)^2 replaces the second sin plus both cos calls. */
+static const char *FS_LEAN =
+    "#version 330 core\n"
+    "uniform samplerBuffer inputs;\n"
+    "uniform int width;\n"
+    "uniform int n;\n"
+    "out vec4 frag;\n"
+    "void main() {\n"
+    "  int i = int(gl_FragCoord.y) * width + int(gl_FragCoord.x);\n"
+    "  if (i < 0 || i >= n) { frag = vec4(0.0); return; }\n"
+    "  int b = i * 11;\n"
+    "  float N = max(texelFetch(inputs, b + 0).r, 1e-6);\n"
+    "  float P = texelFetch(inputs, b + 1).r;\n"
+    "  float D = max(texelFetch(inputs, b + 2).r, 1e-6);\n"
+    "  float dp = texelFetch(inputs, b + 3).r;\n"
+    "  float hits = texelFetch(inputs, b + 4).r;\n"
+    "  float rho = texelFetch(inputs, b + 5).r;\n"
+    "  float dth = texelFetch(inputs, b + 6).r;\n"
+    "  float scale = texelFetch(inputs, b + 7).r;\n"
+    "  float amp = texelFetch(inputs, b + 8).r;\n"
+    "  float trend = texelFetch(inputs, b + 9).r;\n"
+    "  float observed = texelFetch(inputs, b + 10).r;\n"
+    "  const float PI = 3.141592653589793;\n"
+    "  const float PHI = 1.618033988749895;\n"
+    "  const float GAMMA = 0.5772156649015329;\n"
+    "  const float ALPHA = 8.082937414140405e-4;\n"
+    "  const float PSI_CON = 0.6321205588285577;\n"
+    "  const float ETA_EFF = 0.46694220692425986;\n"
+    "  const float BETA = 2.620866911333223e-17;\n"
+    "  const float CHAOS = -0.33102418261048183;\n"
+    "  const float THETA_S = 0.29089654054517305;\n"
+    "  const float POOF = 0.1534822148944508;\n"
+    "  const float C_EFF = 0.9577480213378242;\n"
+    "  const float P_VAR = 0.9579871226722757;\n"
+    "  const float B_IN = 0.7879784892100858;\n"
+    "  const float A_IN = 1.6668538450045732;\n"
+    "  const float A_BLEED = 1.046973630587551;\n"
+    "  const float SUCTION = 0.14703398542810284;\n"
+    "  const float P_NEW = 0.30030227667037146;\n"
+    "  const float C_FACTOR = 0.28761391128429215;\n"
+    "  const float K = 0.4201087636498879;\n"
+    "  const float INV_ETA = 1.0 / ETA_EFF;\n"
+    "  const float INV_PHI = 1.0 / PHI;\n"
+    "  const float AGP = ALPHA * GAMMA / PHI;\n"
+    "  const float PHASE = 1.0 + B_IN * P_VAR;\n"
+    "  const float VALVE_WAVE = 1.0 + POOF * cos(THETA_S + PI) + SUCTION * sin(THETA_S);\n"
+    "  const float OBS_GAIN = exp(C_FACTOR * P_VAR);\n"
+    "  float h = hits / N;\n"
+    "  float growth = exp(AGP * (1.0 - h));\n"
+    "  float geom = N * P / sqrt(D);\n"
+    "  float base = geom\n"
+    "    * cos((PSI_CON + dp) * INV_ETA)\n"
+    "    * exp(-ALPHA * h + rho + B_IN * dp)\n"
+    "    * (1.0 + growth * C_EFF);\n"
+    "  float t1 = base * (1.0 + P_NEW * log(D / 25.0));\n"
+    "  float quirk = OBS_GAIN * cos(dp + P_VAR);\n"
+    "  t1 *= mix(1.0, quirk, step(0.5, observed));\n"
+    "  float t2 = scale * amp + trend;\n"
+    "  float s = sin(dth);\n"
+    "  float acoustic = 1.0 + (A_IN + (A_BLEED - A_IN) * s * s) * INV_PHI;\n"
+    "  float valve = BETA * cos(dp) * geom\n"
+    "    * (1.0 + CHAOS * (D - 25.0) / 25.0)\n"
+    "    * VALVE_WAVE;\n"
+    "  float S = K * (t1 + t2 + valve * acoustic * PHASE);\n"
+    "  float theta = C_EFF * P_VAR;\n"
+    "  float code = 1.0;\n"
+    "  if (S > theta) code = 2.0;\n"
+    "  else if (S < -theta) code = 0.0;\n"
+    "  frag = vec4(S, code, 0.0, 1.0);\n"
+    "}\n";
+
 static GLuint compile_shader(GLenum type, const char *src) {
     GLuint sh = p_glCreateShader(type);
     p_glShaderSource(sh, 1, &src, NULL);
@@ -426,6 +498,7 @@ static void fail_json(const char *msg) {
 int main(int argc, char **argv) {
     int side = argc > 1 ? atoi(argv[1]) : 256;
     int reps = argc > 2 ? atoi(argv[2]) : 30;
+    int lean = argc > 3 && strcmp(argv[3], "lean") == 0;
     if (side < 8 || side > 2048 || reps < 1 || reps > 10000) {
         fail_json("side must be 8..2048 and reps 1..10000");
         return 2;
@@ -461,7 +534,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     GLuint vs = compile_shader(GL_VERTEX_SHADER, VS);
-    GLuint fs = compile_shader(GL_FRAGMENT_SHADER, FS);
+    GLuint fs = compile_shader(GL_FRAGMENT_SHADER, lean ? FS_LEAN : FS);
     if (!vs || !fs) {
         free(samples);
         fail_json("shader compile failed");
@@ -552,7 +625,8 @@ int main(int argc, char **argv) {
     f = fopen("/sys/class/drm/card1/gt_act_freq_mhz", "r");
     if (f) { fscanf(f, "%d", &act); fclose(f); }
 
-    printf("{\"ok\":true,\"backend\":\"intel-igpu-gl330\",\"renderer\":\"");
+    printf("{\"ok\":true,\"backend\":\"intel-igpu-gl330\",\"shader\":\"%s\",\"renderer\":\"",
+           lean ? "lean" : "archive");
     json_escape(stdout, g_renderer);
     printf("\",\"gl\":\"");
     json_escape(stdout, g_version);
