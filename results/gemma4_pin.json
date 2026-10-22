@@ -1,0 +1,245 @@
+{
+  "measured": "2026-10-22",
+  "host": "Macmini6,1",
+  "cpu": "Intel(R) Core(TM) i5-3210M CPU @ 2.50GHz",
+  "governor": "schedutil",
+  "physical_cores": {
+    "cpu0": "with cpu2",
+    "cpu1": "with cpu3"
+  },
+  "memlock_kb": 8192,
+  "model_file": "gemma-4-E4B-it-Q4_K_M.gguf",
+  "model_bytes": 4977171584,
+  "unpinned_bench": {
+    "threads": 4,
+    "batch": 512,
+    "ubatch": 512,
+    "reps": 2,
+    "clock_mhz": {
+      "samples": 166,
+      "reduction": "mean of the four cores, then min median max",
+      "min": 2893,
+      "median": 2893,
+      "max": 2976,
+      "core_min": 2893,
+      "core_max": 3060,
+      "below_1500": 0
+    },
+    "later_unpinned_generation_t_s": 1.370515,
+    "note": "A later unpinned four-thread generation, no warmup, one repetition, was 1.370515 t/s. One sample showed all four threads on logical CPU 1. Later samples in that run were spread across the logical CPUs.",
+    "flash_attn_on": {
+      "prompt": {
+        "avg_t_s": 6.086422,
+        "std_t_s": 0.070729,
+        "samples_t_s": [
+          6.03641,
+          6.13644
+        ]
+      },
+      "generation": {
+        "avg_t_s": 1.541862,
+        "std_t_s": 0.070308,
+        "samples_t_s": [
+          1.59158,
+          1.49215
+        ]
+      }
+    },
+    "flash_attn_off": {
+      "prompt": {
+        "avg_t_s": 5.949909,
+        "std_t_s": 0.112386,
+        "samples_t_s": [
+          5.87044,
+          6.02938
+        ]
+      },
+      "generation": {
+        "avg_t_s": 1.619675,
+        "std_t_s": 0.026461,
+        "samples_t_s": [
+          1.63839,
+          1.60096
+        ]
+      }
+    },
+    "flash_attn_auto_generation": {
+      "load_mode": "auto",
+      "avg_t_s": 1.481059,
+      "std_t_s": 0.073582,
+      "samples_t_s": [
+        1.53309,
+        1.42903
+      ]
+    }
+  },
+  "pinned_generation": {
+    "reps": 2,
+    "n_gen": 32,
+    "clock_mhz": {
+      "samples": 120,
+      "reduction": "mean of the four cores, then min median max",
+      "min": 2893,
+      "median": 2893,
+      "max": 2895,
+      "core_min": 2891,
+      "core_max": 2896,
+      "below_1500": 0
+    },
+    "two_physical_cores": {
+      "threads": 2,
+      "cpu_mask": "0x3",
+      "cpu_strict": true,
+      "avg_t_s": 2.776285,
+      "std_t_s": 0.002106,
+      "samples_t_s": [
+        2.7748,
+        2.77777
+      ]
+    },
+    "four_logical_cpus": {
+      "threads": 4,
+      "cpu_mask": "0xf",
+      "cpu_strict": true,
+      "avg_t_s": 1.70766,
+      "std_t_s": 0.04925,
+      "samples_t_s": [
+        1.67283,
+        1.74249
+      ]
+    }
+  },
+  "dram_reread": {
+    "buffer_bytes": 1073741824,
+    "reps": 6,
+    "unit": "decimal GB/s",
+    "clocks_sampled": false,
+    "rows": [
+      {
+        "threads": 2,
+        "seconds": 0.3899,
+        "read_GB_s": 16.523
+      },
+      {
+        "threads": 4,
+        "seconds": 0.3849,
+        "read_GB_s": 16.738
+      }
+    ],
+    "whole_file_once_per_token_at_16_523_GB_s": 3.319756958573844,
+    "pinned_two_thread_fraction_of_that": 0.83629164262455
+  },
+  "adapter_check": {
+    "tensors_compared": [
+      "blk.0.attn_q.weight.lora_a",
+      "blk.0.attn_q.weight.lora_b",
+      "blk.0.attn_output.weight.lora_a",
+      "blk.0.attn_output.weight.lora_b",
+      "blk.5.attn_q.weight.lora_a",
+      "blk.5.attn_q.weight.lora_b",
+      "blk.41.attn_q.weight.lora_a",
+      "blk.41.attn_q.weight.lora_b"
+    ],
+    "max_abs_after_reshape": 0.0,
+    "norm_ratio": 1.0,
+    "alpha": 32,
+    "rank": 16,
+    "user_scale_1_is_trained_scale": true
+  },
+  "pinned_proposals": {
+    "generation_threads": 2,
+    "generation_mask": "0x3",
+    "prompt_threads": 4,
+    "prompt_mask": "0xf",
+    "temp": 0,
+    "reasoning": "off",
+    "clock_mhz": {
+      "samples": 125,
+      "min": 2893,
+      "median": 2893,
+      "max": 2972,
+      "core_min": 2893,
+      "core_max": 3057,
+      "below_1500": 0
+    },
+    "rows": [
+      {
+        "try": "fine-structure scale 1",
+        "exit": 0,
+        "prompt_t_s": 5.2,
+        "generation_t_s": 2.7,
+        "reply": "1/(e^2*pi^2/3)",
+        "gate_ok": true,
+        "engine_value": 0.0411369932583139,
+        "error_pct": 463.7248974314834,
+        "z": 30914993162.098896,
+        "inside_bar": false,
+        "kill_reason": "outside_published_uncertainty",
+        "same_line_as_prior_score": true
+      },
+      {
+        "try": "fine-structure scale 0.5",
+        "exit": 0,
+        "prompt_t_s": 5.2,
+        "generation_t_s": 2.8,
+        "reply": "(e^2 / (4*pi*epsilon_0*h_bar))",
+        "gate_ok": false,
+        "gate_reasons": [
+          "unknown_name"
+        ],
+        "unknown": "epsilon_0",
+        "scored": false
+      },
+      {
+        "try": "fine-structure scale 2",
+        "exit": 0,
+        "prompt_t_s": 5.4,
+        "generation_t_s": 2.8,
+        "reply": "·S_raw観戦 space by S·brand wave formula authority path\n• | raw_S·base·Z_S·raw_hub·Z_public | :来asim·ad_lean_auth wave wave wrong by s·base sm·live law :··/bleam",
+        "proposal_line": false,
+        "scored": false
+      },
+      {
+        "try": "fine-structure scale 4",
+        "exit": 0,
+        "prompt_t_s": 5.3,
+        "generation_t_s": 2.7,
+        "reply": "AD_S/AD_raw/S·S_raw lean corridor formula :/·成分 economics_on·/S_raw : One Z gauge books second·class_on·/S : sw свіConnect wave·S lean raw/ S⩽bridle : raw/Sest/ lean·S/ Sosi Z·S::-· ስ :hub/· ስ : raw/ S lean/ S⩽ green/ S⩽§/S·S/",
+        "proposal_line": false,
+        "scored": false
+      },
+      {
+        "try": "N_eff scale 1",
+        "exit": 0,
+        "prompt_t_s": 5.5,
+        "generation_t_s": 2.8,
+        "reply": "pi^2/6 + e - ln(2)",
+        "gate_ok": true,
+        "measured": 3.046,
+        "bar_pct": 0.03299544019642231,
+        "engine_value": 3.670068714747326,
+        "error_pct": 20.488139026504467,
+        "z": 620.9384964873417,
+        "inside_bar": false,
+        "kill_reason": "outside_published_uncertainty",
+        "trainer_proposal": "P_new·e·π + ln(φ)"
+      },
+      {
+        "try": "w0_cmb scale 1",
+        "exit": 0,
+        "prompt_t_s": 5.4,
+        "generation_t_s": 2.8,
+        "reply": "-P_new*P_cmb/pi",
+        "gate_ok": false,
+        "gate_reasons": [
+          "unknown_name"
+        ],
+        "unknown": "p_cmb",
+        "scored": false,
+        "trainer_proposal": "−P_new·π/G"
+      }
+    ]
+  },
+  "send": false,
+  "promoted": false
+}

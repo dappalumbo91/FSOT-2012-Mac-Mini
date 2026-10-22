@@ -2,6 +2,31 @@
 
 Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. The newest pass is first. The sections under it are the earlier passes, with their recorded numbers left as they were.
 
+## Pin one thread to each physical core
+
+Measured on 22 Oct 2026, after the memory-bus section below. Same Mac mini, same `schedutil` governor, same mitigations, same Q4_K_M file. The memory-lock limit is 8192 KB, so the 4.7 GB weight file was not locked.
+
+An unpinned four-thread bench, batch 512, ubatch 512, left generation near 1.5 to 1.6 t/s. Flash attention on: prompt 6.086 t/s, generation 1.542 t/s. Flash attention off: prompt 5.950 t/s, generation 1.620 t/s. The same auto flags as the 3.61 t/s row below then generated at 1.481 t/s. A following unpinned generation, still four threads, came in at 1.371 t/s. One sample in that run showed all four threads on logical CPU 1. Later samples were spread across the logical CPUs. Across the flash-attention pass, 166 samples of the four-core mean ran from 2893 to 2976 MHz. No reading was under 1500 MHz.
+
+The two physical cores are cpu 0 with cpu 2, and cpu 1 with cpu 3. Pinning one generation thread to cpu 0 and one to cpu 1, mask `0x3`, strict placement, generated at 2.776 t/s over two repetitions. The two samples were 2.775 and 2.778 t/s. Pinning four threads across all four logical CPUs, mask `0xf`, generated at 1.708 t/s. Clocks for that pair: 120 samples, four-core mean 2893 to 2895 MHz.
+
+A two-thread read of a resident 1 GiB buffer in the same afternoon did 16.523 GB/s. Four threads did 16.738 GB/s. That sits under the 19.954 GB/s peak in the section below. Clocks were not sampled inside that short read. At 16.523 GB/s the whole file once per token is 3.32 t/s. The pinned 2.776 t/s generation is 84% of that.
+
+The epoch-7 GGUF matches the trainer safetensors on the q and output tensors that were checked, including layer 0, layer 5, and layer 41. After the file reshape the max absolute difference is 0 and the norms are in ratio 1. The file alpha is 32 and the rank is 16, so user scale 1 is the trained scale.
+
+llama-cli then pinned generation the same way and used all four logical CPUs for the prompt. Temperature 0, the epoch-7 chat template, thinking off. Each run exited 0. The client printed about 5.2 to 5.5 t/s on the prompt and 2.7 to 2.8 t/s on generation. Across that window, 125 samples, the four-core mean ran from 2893 to 2972 MHz.
+
+| Try | What it printed | Result |
+|--|--|--|
+| Scale 1, fine-structure | `1/(e^2*pi^2/3)` | Same killed line as below. Engine value 0.0411369932583139, z 3.09e10. |
+| Scale 0.5, fine-structure | `(e^2 / (4*pi*epsilon_0*h_bar))` | Gate rejected `epsilon_0`. Not scored. |
+| Scale 2, fine-structure | No `PROPOSAL` line | The text was not an engine formula. |
+| Scale 4, fine-structure | No `PROPOSAL` line | The text was not an engine formula. |
+| Scale 1, N_eff | `pi^2/6 + e - ln(2)` | Engine value 3.670068714747326, percent error 20.49, z 621, killed. |
+| Scale 1, w0_cmb | `-P_new*P_cmb/pi` | Gate rejected `p_cmb`. Not scored. |
+
+The trainer lines for those rows were not what this model printed. Nothing was sent and nothing was promoted.
+
 ## The Q4 file sits on the memory bus
 
 Measured on 22 Oct 2026, after the thread sweep in the section below. Same Mac mini, same `schedutil` governor, same mitigations, same Q4_K_M file, 4,977,171,584 bytes. A resident 1,073,741,824-byte buffer was read with AVX loads. The rates below are decimal GB/s, bytes divided by 1e9.
