@@ -2,6 +2,78 @@
 
 Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. The newest pass is first. The sections under it are the earlier passes, with their recorded numbers left as they were.
 
+## Forty-five published rows on Q6
+
+Measured on 22 Oct 2026, after the Q6 section below. Same Mac mini, same `schedutil` governor, same mitigations, same Q6_K file, same epoch-7 adapter at user scale 1. The governor was `schedutil` at the start and at the end. The weight file and the adapter are the files named in the section below. They are not in git.
+
+Each row was a new llama-cli, so the context started empty. Generation used two threads, one pinned to each physical core, mask `0x3`, strict placement. The prompt used all four logical CPUs. Temperature 0, the epoch-7 chat template, thinking off, 96 new tokens at most. All 45 processes exited 0. One row, including the load, took 24 to 32 seconds. The pass ran from 15:02 to 15:22 local time.
+
+The client printed prompt rates from 6.3 to 7.5 t/s. Generation printed 3.0 t/s on 39 rows, 2.9 t/s on 3 rows, and 2.8 t/s on 3 rows. Those figures are the one-decimal client print. Across the pass, 592 samples of the four-core mean ran from 2225.8 to 2941.0 MHz, median 2893.2. The lowest single core was 1880.0 MHz. The highest single core was 3084.5 MHz. No four-core mean was under 1500 MHz.
+
+Nine prompts were corpus lines that already named the row. The other 36 were rebuilt from the published domain, name, property, measured value, and bar, using the same proposal rule. A missing name or property was the word None.
+
+The pinned engine scored the printed line. Twenty-five lines passed the gate. One sits inside its published bar.
+
+| Row | Reply | Engine value | Percent error | z |
+|--|--|--:|--:|--:|
+| vacuum_magnetic_permeability | `4*pi*10^(-7)` | 1.2566370614359173e-06 | 1.320e-08 | 0.8802 |
+
+The measured value on that row is 1.25663706127e-06. The published bar is 1.50e-08 percent. Twenty-four gated lines are outside the bar. The next smallest z is 3.464, on Mean_dependency_length_EN, reply `ln(e*phi) + 1/e`.
+
+Twenty lines were rejected. Each rejection is an unknown engine name, and the table names the first one the gate reported: `m_e` on 6 lines, `h` on 5, `m_p` on 2, `p_cosm` on 2, and one each of `g_p_eff`, `mu_0`, `m_u`, `m_h`, and `p_rad`.
+
+Two printed lines are the stored trainer text: `h*c/k_B` for the Wien constant, and `h/(m_e*c)` for the Compton wavelength. The gate rejected both for `h`. The fine-structure, N_eff, and w0_cmb lines are the same lines recorded in the Q6 section below: `1/(e^2*pi^2)`, `1 + 1 + 1`, and `-P_new/P_base`.
+
+The z figures below are four significant digits. [results/gemma4_q6_rows.json](results/gemma4_q6_rows.json) holds the unrounded scores, the measured values, and the trainer fields from the epoch-7 log. On that log these 45 rows show 15 gate passes and 12 inside the bar. The permeability line above is the inside row on this machine. Nothing was sent and nothing was promoted.
+
+| # | Domain | Name | Reply | Outcome |
+|--:|--|--|--|--|
+| 0 | anthropology | Mean_dependency_length_EN | `ln(e*phi) + 1/e` | outside, z 3.464 |
+| 1 | Atomic_Physics | fine-structure_constant | `1/(e^2*pi^2)` | outside, z 5.861e+09 |
+| 2 | Atomic_Physics | inverse_fine-structure_constant | `2*pi^2*e^2/m_e^2*alpha` | rejected m_e |
+| 3 | Atomic_Physics | electron_mass | `(pi^2/2 - 1)` | outside, z 1.393e+40 |
+| 4 | Atomic_Physics | proton_mass | `m_e*11*sqrt(pi)/e^3` | rejected m_e |
+| 5 | Atomic_Physics | neutron_mass | `m_p + m_e - m_nu` | rejected m_p |
+| 6 | Atomic_Physics | muon_mass | `(e^2*pi^2/phi^5)` | outside, z 1.566e+36 |
+| 7 | Atomic_Physics | atomic_mass_constant | `m_p*e/c^2` | rejected m_p |
+| 8 | Atomic_Physics | Rydberg_constant | `h^2*e^4/(m_e^3*c)` | rejected h |
+| 9 | Atomic_Physics | Bohr_radius | `h/(2*pi*m_e^2*e^2)` | rejected h |
+| 10 | Atomic_Physics | electron_g_factor | `2 + (e^2/pi^2) - (e^2/2*phi^2)` | outside, z 2.477e+13 |
+| 11 | Atomic_Physics | proton_g_factor | `1117/200 + pi^3/1000` | outside, z 1.894e+07 |
+| 12 | Atomic_Physics | Newtonian_constant_of_gravitation | `G_P_eff*G_cosm*G_wave*G_dark*G_quantum` | rejected g_p_eff |
+| 13 | Atomic_Physics | Stefan-Boltzmann_constant | `pi^4/15` | outside, z 1.452e+07 |
+| 14 | Atomic_Physics | Wien_wavelength_displacement_law_constant | `h*c/k_B` | rejected h |
+| 15 | Atomic_Physics | vacuum_electric_permittivity | `pi^2/e^3` | outside, z 3.7e+20 |
+| 16 | Atomic_Physics | vacuum_magnetic_permeability | `4*pi*10^(-7)` | inside, z 0.8802 |
+| 17 | Atomic_Physics | impedance_of_free_space | `(4*pi*c)/(mu_0*e^2)` | rejected mu_0 |
+| 18 | Atomic_Physics | Hartree_energy | `pi*m_e*c^2/2` | rejected m_e |
+| 19 | Atomic_Physics | atomic_mass_of_carbon-12 | `12*m_u` | rejected m_u |
+| 20 | Atomic_Physics | Compton_wavelength | `h/(m_e*c)` | rejected h |
+| 21 | Atomic_Physics | classical_electron_radius | `h/(4*pi*e^2)` | rejected h |
+| 22 | Atomic_Physics | Thomson_cross_section | `4*pi*alpha^2/m_e^2` | rejected m_e |
+| 23 | Atomic_Physics | Bohr_magneton | `m_e*e*h/(4*pi*epsilon_0*m_p^2)` | rejected m_e |
+| 24 | Atomic_Physics | nuclear_magneton | `m_e*e^2/hbar^2*alpha` | rejected m_e |
+| 25 | None | Planck2018_w0 | `-P_new/G` | outside, z 22.72 |
+| 26 | None | DES_Y3_w0 | `-P_new/m_H^2` | rejected m_h |
+| 27 | None | PantheonPlus_w0 | `-P_new/G` | outside, z 22.48 |
+| 28 | None | DESI_2024_BAO_preview_w0 | `-P_new/P_base` | outside, z 12.88 |
+| 29 | None | DESI_DR2_w0 | `-P_new/P_base` | outside, z 31.51 |
+| 30 | dark sector open | w0_cmb | `-P_new/P_base` | outside, z 12.32 |
+| 31 | dark sector open | w0_bao | `-P_new*P_cosm/e` | rejected p_cosm |
+| 32 | dark sector open | N_eff | `1 + 1 + 1` | outside, z 45.77 |
+| 33 | dark sector open | Omega_Lambda | `P_new*P_base/P_cosm` | rejected p_cosm |
+| 34 | dark sector open | sigma_8 | `(sqrt(pi)*(e^2-1))` | outside, z 1752 |
+| 35 | dark sector open | tau_reion | `C_eff*P_new/pi` | outside, z 4.987 |
+| 36 | dark sector open | D_H_ratio | `pi^2/e^3` | outside, z 1.246e+07 |
+| 37 | Particle_Physics | wave2_sigma_8 | `C_eff*P_new/pi` | outside, z 119.9 |
+| 38 | math generator | None | `100*sqrt(e)/pi` | outside, z 110.7 |
+| 39 | stumped observables panel | sigma_8 | `G^2*P_new` | outside, z 93.16 |
+| 40 | stumped observables panel | tau_reion | `pi^2/e^2 - 1/pi` | outside, z 139.7 |
+| 41 | stumped observables panel | r_c | `pi^2/e` | outside, z 30.22 |
+| 42 | stumped observables panel | w0_CMB | `-P_new/G` | outside, z 22.52 |
+| 43 | stumped observables panel | w0_BAO | `-P_new*P_rad/m_p` | rejected p_rad |
+| 44 | stumped observables panel | w_a | `-1 + pi^2/3` | outside, z 5.461e+05 |
+
 ## Q6_K on the same pin
 
 Measured on 22 Oct 2026. Same Mac mini, same `schedutil` governor, same mitigations. The file is `gemma-4-E4B-it-Q6_K.gguf`, 7,074,929,792 bytes, sha256 `fd83f3ef44d22e00ff0f638753dde9a66a83e8ccf79c11024f47d383c489531b`. It is not in git. llama-bench reports 7,059,101,864 weight bytes.
