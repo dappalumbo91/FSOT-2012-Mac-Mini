@@ -2,6 +2,30 @@
 
 Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. This file is the record of that pass.
 
+## FSOT's own exp, log, sin, and cos
+
+The first AVX pass called glibc's `libmvec`. Those entry points are gone from the hot path. `bench/fsot_avx_math.hpp` evaluates the series itself: Taylor `exp` after a split by `ln2`, `log` as `2·atanh` of the reduced mantissa, and `sin`/`cos` after a split by `π/2`. The only floating-point instruction taken from the chip, rather than from a series, is AVX `sqrt`. The scalar is still pin AEB2AD, `S = K·(T1+T2+T3)`.
+
+Same 2^20 batch, median of 5 rounds, g++ `-O3 -march=native`. The published-scalar row was run in this same sitting.
+
+| Mode | Threads | Per second | Max abs error vs the published scalar |
+|--|--:|--:|--:|
+| Published scalar | 4 | 17,051,668 | 0 |
+| FSOT series, AVX | 1 | 17,139,900 | 3.766e-13 |
+| FSOT series, AVX | 2 | 31,435,686 | 3.766e-13 |
+| FSOT series, AVX | 4 | 35,266,749 | 3.766e-13 |
+| glibc libmvec, AVX, same sitting | 4 | 31,634,851 | 3.695e-13 |
+
+Two later 4-thread runs of the FSOT series landed at 36,564,523/s and 35,815,091/s. One later published-scalar run landed at 15,995,205/s. The side-by-side pair above is the comparison: 35,266,749 / 17,051,668 = 2.07×. The FSOT series also beat glibc's vector path on the run next to it, 35,266,749 against 31,634,851.
+
+The batch sum moved from `3362353.52762220` to `3362353.52762223`. Endpoints still print `0.07168321` and `-93.36003123`.
+
+A wider grid, 449,064 samples, varies `D` from 0.001 to 400, `rho` from −2 to 3, `delta_psi` from −8 to 8, `delta_theta` from −8 to 8, and both observed states. The largest absolute gap was `1.281e-9`, at `D = 0.001`, `delta_psi = 7.8`, `delta_theta = −8`, `rho = 3`. The published scalar there is about −349,993, so that gap is a relative `3.7e-15`.
+
+Use mode `ours`. Keep the published scalar when the check has to be bit-exact. The libmvec numbers below are the earlier pass, kept so the two paths can be compared.
+
+## Earlier pass, glibc libmvec
+
 The fair CPU comparison is inside this session. The published strict 4-thread rate was 17.64 million/s on an earlier run. Rebuilt and run again here, that same scalar did 16.66 million/s, then 16.60 million/s. The new code is compared with those two rows, not with the earlier afternoon.
 
 ## What got faster

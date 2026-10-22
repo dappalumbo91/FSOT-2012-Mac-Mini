@@ -3,7 +3,18 @@
   "branch": "os-push",
   "host": "Macmini6,1",
   "governor": "schedutil",
-  "note": "Same 2^20 input batch and pin AEB2AD as results/study.json. cpu0_mhz is a sample after the timed section. The ref rows are the published scalar, run again in this session.",
+  "note": "Same 2^20 input batch and pin AEB2AD as results/study.json. cpu0_mhz is a sample after the timed section. The ref rows are the published scalar, run again in this session. The ours rows use FSOT's own AVX series and were measured after the libmvec rows.",
+  "ours": [
+    {"compiler": "g++", "mode": "ours", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.029733, "scalar_per_s": 35266749.491, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.061494, "scalar_per_s": 17051667.638, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ours", "threads": 1, "n": 1048576, "rounds": 5, "median_s": 0.061177, "scalar_per_s": 17139899.566, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 3094},
+    {"compiler": "g++", "mode": "ours", "threads": 2, "n": 1048576, "rounds": 5, "median_s": 0.033356, "scalar_per_s": 31435685.884, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 3008},
+    {"compiler": "g++", "mode": "ours", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.028677, "scalar_per_s": 36564522.988, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2985},
+    {"compiler": "g++", "mode": "vec", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.033146, "scalar_per_s": 31634851.483, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.695e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ours", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.029277, "scalar_per_s": 35815090.849, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
+    {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.065556, "scalar_per_s": 15995205.295, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893}
+  ],
+  "ours_probe": {"count": 449064, "max_abs_err": 1.281e-9, "at_D": 0.001, "at_dp": 7.8, "at_dth": -8, "at_rho": 3, "at_obs": 0, "ref_s_at_worst": -349992.91},
   "cpu": [
     {"compiler": "g++", "mode": "ref", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.062953, "scalar_per_s": 16656389.749, "sum": 3362353.52762220, "ref_sum": 3362353.52762220, "max_abs_err": 0.0, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 1200},
     {"compiler": "g++", "mode": "tight", "threads": 4, "n": 1048576, "rounds": 5, "median_s": 0.052629, "scalar_per_s": 19923880.143, "sum": 3362353.52762223, "ref_sum": 3362353.52762220, "max_abs_err": 3.766e-13, "s0": 0.07168321, "s_last": -93.36003123, "cpu0_mhz": 2893},
