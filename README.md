@@ -2,7 +2,7 @@
 
 Measured FSOT scalar throughput and a `plant_host_v1` reading on this machine: Apple Macmini6,1 (Late 2012), Intel Core i5-3210M, Intel HD Graphics 4000, Ubuntu 26.04.1 LTS.
 
-The numbers are in [FINDINGS.md](FINDINGS.md). A later pass on the same machine, including a faster FSOT AVX series, is in [OS_PUSH.md](OS_PUSH.md). Raw records:
+The numbers are in [FINDINGS.md](FINDINGS.md). A later pass on the same machine, including a faster FSOT AVX series and a CPU-only Gemma 4 run, is in [OS_PUSH.md](OS_PUSH.md). Raw records:
 
 - `results/study.json` — CPU, iGPU, Python, and the official `FSOT-2.1-Cpp` bench
 - `results/validation.json` — repeated HD 4000 draws, to show the rate scales with work

@@ -1,0 +1,41 @@
+{
+  "measured": "2026-10-21",
+  "host": "Macmini6,1",
+  "governor": "schedutil",
+  "runtime": "llama.cpp 0.7.0",
+  "build": "b1-620d222",
+  "isa": "AVX, no AVX2, no FMA",
+  "gpu_backend": false,
+  "threads": 4,
+  "model_repo": "unsloth/gemma-4-E4B-it-GGUF",
+  "model_file": "gemma-4-E4B-it-Q4_K_M.gguf",
+  "bytes": 4977171584,
+  "sha256": "85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87",
+  "adapter": "none",
+  "adapter_note": "The epoch-7 LoRA is not in this GGUF. This is base Gemma 4 E4B.",
+  "smoke": {
+    "context": 512,
+    "n_predict": 32,
+    "temp": 0,
+    "reasoning": "off",
+    "reply": "hello from this Mac mini.",
+    "prompt_t_s": 4.9,
+    "generation_t_s": 3.1
+  },
+  "proposal": {
+    "row": "Air_20C acoustic_impedance_MRayl",
+    "context": 1024,
+    "n_predict": 128,
+    "temp": 0.4,
+    "reasoning": "off",
+    "reply": "PROPOSAL: $\\text{Air\\_20C}^1$",
+    "prompt_t_s": 6.7,
+    "generation_t_s": 3.0,
+    "gate_ok": false,
+    "gate_reasons": ["stray_character"],
+    "engine_value": null,
+    "published_uncertainty": null,
+    "send": false,
+    "promoted": false
+  }
+}

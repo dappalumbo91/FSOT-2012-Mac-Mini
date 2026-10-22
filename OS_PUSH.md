@@ -28,6 +28,16 @@ On `[−64, 64]` the new `sin` and `cos` stay within `2.61e-15` of libm. The wid
 
 Use mode `push` for throughput. Keep the published scalar when the check has to be bit-exact.
 
+## Gemma 4 E4B on this CPU
+
+math-si has Gemma 4 propose and the pinned engine compute. The Windows dial loads an epoch-7 LoRA on top of `google/gemma-4-E4B-it`. A GGUF cannot carry that adapter, so this run is the base model. The file is `gemma-4-E4B-it-Q4_K_M.gguf` from `unsloth/gemma-4-E4B-it-GGUF`, 4,977,171,584 bytes, sha256 `85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87`. The weights are not in this repo.
+
+llama.cpp 0.7.0, build `b1-620d222`, compiled here with `-march=native`. That is AVX, not AVX2, and not FMA. The binary has no GPU backend. Four threads. `schedutil` was left alone. The iGPU was not used.
+
+A one-line check, context 512, 32 new tokens, temperature 0, thinking off, answered `hello from this Mac mini.` The client printed prompt 4.9 t/s and generation 3.1 t/s.
+
+The math-si smoke prompt for Air_20C, context 1024, temperature 0.4, thinking off, up to 128 new tokens, came back as one line: `PROPOSAL: $\text{Air\_20C}^1$`. Prompt 6.7 t/s, generation 3.0 t/s. The local hub gate rejected it. `$`, `\`, `{`, and `}` are not in the allowed set, so the pinned engine did not compute a value. That smoke row also has no published uncertainty, so the try is not an inside-bar pass. Nothing was sent and nothing was promoted.
+
 ## FSOT's own exp, log, sin, and cos
 
 The first AVX pass called glibc's `libmvec`. Those entry points are gone from the hot path. `bench/fsot_avx_math.hpp` evaluates the series itself: Taylor `exp` after a split by `ln2`, `log` as `2·atanh` of the reduced mantissa, and `sin`/`cos` after a split by `π/2`. The only floating-point instruction taken from the chip, rather than from a series, is AVX `sqrt`. The scalar is still pin AEB2AD, `S = K·(T1+T2+T3)`.
