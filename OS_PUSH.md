@@ -2,6 +2,44 @@
 
 Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. The newest pass is first. The sections under it are the earlier passes, with their recorded numbers left as they were.
 
+## The Q4 file sits on the memory bus
+
+Measured on 22 Oct 2026, after the thread sweep in the section below. Same Mac mini, same `schedutil` governor, same mitigations, same Q4_K_M file, 4,977,171,584 bytes. A resident 1,073,741,824-byte buffer was read with AVX loads. The rates below are decimal GB/s, bytes divided by 1e9.
+
+One thread, eight passes, one accumulator chain: 15.439 GB/s in 0.5564 s. Two later one-thread runs with four independent accumulators did 15.270 GB/s and 15.375 GB/s. The extra accumulators did not raise the rate. Splitting that buffer across threads, six passes, with thread create and join inside the clock:
+
+| Threads | Seconds | GB/s |
+|--:|--:|--:|
+| 1 | 0.4195 | 15.358 |
+| 2 | 0.3229 | 19.954 |
+| 4 | 0.3261 | 19.756 |
+
+A second sitting sampled the clocks every 0.2 s while the same program ran again. Sixteen samples of the four-core mean ran from 2480 to 2894 MHz, median 2893. The lowest single core in that window was 2207 MHz. No reading was under 1500 MHz. `schedutil` was the governor.
+
+| Threads | Seconds | GB/s |
+|--:|--:|--:|
+| 2 | 0.3289 | 19.588 |
+| 4 | 0.3365 | 19.144 |
+| 2 | 0.3369 | 19.122 |
+
+Two threads fill the bus. Four threads do not add bandwidth.
+
+Reading all 4,977,171,584 file bytes once per token at 19.954 GB/s is 4.01 t/s. The later samples, 19.122 to 19.588 GB/s, are 3.84 to 3.94 t/s. The empty-cache bench generation in the section below, 3.621643 t/s, moves 18.03 GB/s, 90% of the 19.954 GB/s peak. llama-cli after the fine-structure prompt stays near 3 t/s. One thread at 15.439 GB/s is 3.10 t/s, which is the generation rate the client already prints, and it is not the bus peak.
+
+The three greedy retries used the epoch-7 LoRA, four threads, batch 512, ubatch 512, context 1024, temperature 0, top-k 0, top-p 1, min-p 0, repeat penalty 1, thinking off. Across that window, 40 samples, every core stayed at 2893 to 2894 MHz and the governor stayed `schedutil`. Each run exited 0. Each printed `PROPOSAL: 1/(e^2*pi^2/3)`.
+
+| Try | Prompt t/s | Generation t/s |
+|--|--:|--:|
+| GGUF template, bar lines kept | 6.6 | 2.6 |
+| Epoch-7 chat template, bar lines kept | 7.1 | 3.5 |
+| Same template, bar lines omitted | 7.1 | 3.4 |
+
+Those generation figures are the client's one decimal on a short reply. They are the same band as the 2.8 t/s row below. The line is the one already scored there: engine value 0.0411369932583139, percent error 463.7, z 3.09e10, killed as outside the published bar. It was not scored again.
+
+On the Windows trainer log, epoch 7 emits `1/(e^3*phi^4 - psi_con - (POOF*SUCTION)^2*(C_factor^2/P_base))` for this row. That log records engine value 0.007297352564920233, percent error 8.499e-09, z 0.567, inside the published bar, send false. This Q4_K_M file plus the converted adapter did not emit that string. The sampler defaults, the training chat template, and the shorter prompt were the three tries above.
+
+A smaller quant is the remaining large speed lever, and it moves the weights further from the NF4 base that adapter was trained on. A higher-precision GGUF is the remaining quality check, and it would be slower. Neither file was downloaded. Nothing was sent and nothing was promoted.
+
 ## Gemma 4, four threads, and the epoch-7 adapter
 
 Measured on 22 Oct 2026. Same Mac mini, same `schedutil` governor, same mitigations, same Q4_K_M file as the section below. llama.cpp 0.7.0, build `b1-620d222`, CPU only. Across the sweep the cores stayed between 2893 and 2897 MHz. Across the two proposals they stayed at 2893 MHz. `schedutil` was the governor at the start and at the end.

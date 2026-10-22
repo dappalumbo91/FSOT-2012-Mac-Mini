@@ -1,0 +1,85 @@
+{
+  "measured": "2026-10-22",
+  "host": "Macmini6,1",
+  "cpu": "Intel(R) Core(TM) i5-3210M CPU @ 2.50GHz",
+  "governor": "schedutil",
+  "isa": "AVX loads, no AVX2, no FMA",
+  "model_file": "gemma-4-E4B-it-Q4_K_M.gguf",
+  "model_bytes": 4977171584,
+  "buffer_bytes": 1073741824,
+  "unit": "decimal GB/s, bytes / 1e9 / seconds",
+  "single_thread": [
+    {"accumulators": 1, "reps": 8, "seconds": 0.5564, "read_GB_s": 15.439},
+    {"accumulators": 4, "reps": 8, "seconds": 0.5625, "read_GB_s": 15.270},
+    {"accumulators": 4, "reps": 8, "seconds": 0.5587, "read_GB_s": 15.375}
+  ],
+  "pthread_slices": {
+    "reps": 6,
+    "note": "Each thread owns a slice. Thread create and join are inside the clock.",
+    "rows": [
+      {"threads": 1, "seconds": 0.4195, "read_GB_s": 15.358},
+      {"threads": 2, "seconds": 0.3229, "read_GB_s": 19.954},
+      {"threads": 4, "seconds": 0.3261, "read_GB_s": 19.756}
+    ]
+  },
+  "pthread_slices_clocked": {
+    "reps": 6,
+    "clock_mhz": {
+      "samples": 16,
+      "reduction": "mean of the four cores, then min median max",
+      "min": 2480,
+      "median": 2893,
+      "max": 2894,
+      "lowest_single_core": 2207,
+      "below_1500": 0
+    },
+    "rows": [
+      {"threads": 2, "seconds": 0.3289, "read_GB_s": 19.588},
+      {"threads": 4, "seconds": 0.3365, "read_GB_s": 19.144},
+      {"threads": 2, "seconds": 0.3369, "read_GB_s": 19.122}
+    ]
+  },
+  "whole_file_once_per_token": {
+    "at_19_954_GB_s": 4.009,
+    "at_19_588_GB_s": 3.936,
+    "at_19_122_GB_s": 3.842,
+    "at_15_439_GB_s": 3.102,
+    "bench_generation_t_s": 3.621643,
+    "bench_implied_GB_s": 18.026,
+    "bench_fraction_of_19_954": 0.903
+  },
+  "greedy_retries": {
+    "lora": "gemma-4-E4B-epoch7-lora-f32.gguf",
+    "threads": 4,
+    "batch": 512,
+    "ubatch": 512,
+    "context": 1024,
+    "temp": 0,
+    "top_k": 0,
+    "top_p": 1,
+    "min_p": 0,
+    "repeat_penalty": 1,
+    "reasoning": "off",
+    "clock_mhz": {"samples": 40, "min": 2893, "median": 2893, "max": 2893, "core_max": 2894, "below_1500": 0},
+    "rows": [
+      {"try": "gguf_template_bar_lines", "exit": 0, "reply": "PROPOSAL: 1/(e^2*pi^2/3)", "prompt_t_s": 6.6, "generation_t_s": 2.6},
+      {"try": "epoch7_jinja_bar_lines", "exit": 0, "reply": "PROPOSAL: 1/(e^2*pi^2/3)", "prompt_t_s": 7.1, "generation_t_s": 3.5},
+      {"try": "epoch7_jinja_bar_lines_omitted", "exit": 0, "reply": "PROPOSAL: 1/(e^2*pi^2/3)", "prompt_t_s": 7.1, "generation_t_s": 3.4}
+    ],
+    "rescored": false,
+    "prior_engine_value": 0.0411369932583139,
+    "prior_error_pct": 463.7248974314834,
+    "prior_z": 30914993162.098896,
+    "prior_kill_reason": "outside_published_uncertainty",
+    "trainer_epoch7_proposal": "1/(e^3*phi^4 - psi_con - (POOF*SUCTION)^2*(C_factor^2/P_base))",
+    "trainer_epoch7_engine_value": 0.007297352564920233,
+    "trainer_epoch7_error_pct": 8.49942532083543e-09,
+    "trainer_epoch7_z": 0.5666283547223621,
+    "trainer_epoch7_inside_bar": true,
+    "trainer_note": "Windows NF4 trainer log, not a run of this Q4_K_M file.",
+    "rate_note": "Prompt and generation t/s are llama-cli one-decimal prints on a short reply."
+  },
+  "downloaded_quant": null,
+  "send": false,
+  "promoted": false
+}
