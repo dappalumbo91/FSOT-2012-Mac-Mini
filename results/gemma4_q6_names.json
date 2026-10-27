@@ -1,0 +1,340 @@
+{
+  "measured": "2026-10-22",
+  "host": "Macmini6,1",
+  "note": "Same printed lines as results/gemma4_q6_rows.json. No new llama run. The dial learned published names, then the pinned engine scored the lines again.",
+  "names_added": [
+    {
+      "alias": "h",
+      "value": 6.62607015e-34,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "Planck_constant",
+      "field": "measured"
+    },
+    {
+      "alias": "m_e",
+      "value": 9.1093837139e-31,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "electron_mass",
+      "field": "measured"
+    },
+    {
+      "alias": "m_p",
+      "value": 1.67262192595e-27,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "proton_mass",
+      "field": "measured"
+    },
+    {
+      "alias": "m_proton",
+      "value": 1.67262192595e-27,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "proton_mass",
+      "field": "measured"
+    },
+    {
+      "alias": "m_n",
+      "value": 1.67492750056e-27,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "neutron_mass",
+      "field": "measured"
+    },
+    {
+      "alias": "m_mu",
+      "value": 1.883531627e-28,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "muon_mass",
+      "field": "measured"
+    },
+    {
+      "alias": "m_u",
+      "value": 1.66053906892e-27,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "atomic_mass_constant",
+      "field": "measured"
+    },
+    {
+      "alias": "mu_0",
+      "value": 1.25663706127e-06,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "vacuum_magnetic_permeability",
+      "field": "measured"
+    },
+    {
+      "alias": "mu0",
+      "value": 1.25663706127e-06,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "vacuum_magnetic_permeability",
+      "field": "measured"
+    },
+    {
+      "alias": "epsilon_0",
+      "value": 8.8541878188e-12,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "vacuum_electric_permittivity",
+      "field": "measured"
+    },
+    {
+      "alias": "eps0",
+      "value": 8.8541878188e-12,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "vacuum_electric_permittivity",
+      "field": "measured"
+    },
+    {
+      "alias": "k_b",
+      "value": 1.380649e-23,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "Boltzmann_constant",
+      "field": "measured"
+    },
+    {
+      "alias": "c_light",
+      "value": 299792458.0,
+      "source": "FSOT-2.1-Lean/data/codata_full_table_open_benchmark.json",
+      "record": "speed_of_light_in_vacuum",
+      "field": "measured"
+    },
+    {
+      "alias": "hbar",
+      "value": 1.0545718176461565e-34,
+      "source": "h/(2*pi) from Planck_constant measured and the pinned pi",
+      "record": "derived",
+      "field": "derived"
+    },
+    {
+      "alias": "h_bar",
+      "value": 1.0545718176461565e-34,
+      "source": "h/(2*pi) from Planck_constant measured and the pinned pi",
+      "record": "derived",
+      "field": "derived"
+    },
+    {
+      "alias": "nu_cs",
+      "value": 9192631770.0,
+      "source": "FSOT-2.1-Lean/data/atomic_physics_gap_fill_benchmark.json",
+      "record": "hyperfine transition frequency of Cs-133",
+      "field": "measured"
+    },
+    {
+      "alias": "m_h",
+      "value": 125.25,
+      "source": "math-si/corpus/formula_points.jsonl",
+      "record": "name m_H property m_H",
+      "field": "measured"
+    }
+  ],
+  "unchanged_bindings": "Bare c and bare g remain Catalan's constant. The hub normalizer rewrites those letters before lookup. alpha, k, e, and pi were left as the pinned FSOT values.",
+  "not_in_the_repos": [
+    "m_nu",
+    "g_p_eff",
+    "g_cosm",
+    "g_wave",
+    "g_dark",
+    "g_quantum",
+    "p_cosm",
+    "p_rad"
+  ],
+  "previous_rows_unchanged": 25,
+  "newly_scored": 15,
+  "still_rejected": 5,
+  "new_inside_bar": 0,
+  "proposals": [
+    {
+      "i": 2,
+      "domain": "Atomic_Physics",
+      "name": "inverse_fine-structure_constant",
+      "reply": "2*pi^2*e^2/m_e^2*alpha",
+      "engine_value": 1.4207246920346703e+59,
+      "error_pct": 1.0367528974628174e+59,
+      "z": 6.91168598308545e+66,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 137.035999177,
+      "bar_pct": 1.5e-08
+    },
+    {
+      "i": 4,
+      "domain": "Atomic_Physics",
+      "name": "proton_mass",
+      "reply": "m_e*11*sqrt(pi)/e^3",
+      "engine_value": 8.842461386671843e-31,
+      "error_pct": 99.94713412965905,
+      "z": 3224101100.956744,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 1.67262192595e-27,
+      "bar_pct": 3.099999999999999e-08
+    },
+    {
+      "i": 7,
+      "domain": "Atomic_Physics",
+      "name": "atomic_mass_constant",
+      "reply": "m_p*e/c^2",
+      "engine_value": 5.41918460738568e-27,
+      "error_pct": 226.35092475784205,
+      "z": 7301642734.123938,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 1.66053906892e-27,
+      "bar_pct": 3.1e-08
+    },
+    {
+      "i": 8,
+      "domain": "Atomic_Physics",
+      "name": "Rydberg_constant",
+      "reply": "h^2*e^4/(m_e^3*c)",
+      "engine_value": 3.46213371290905e+25,
+      "error_pct": 3.154928377285342e+20,
+      "z": 2.868116706623038e+30,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 10973731.568157,
+      "bar_pct": 1.1000000000000001e-10
+    },
+    {
+      "i": 9,
+      "domain": "Atomic_Physics",
+      "name": "Bohr_radius",
+      "reply": "h/(2*pi*m_e^2*e^2)",
+      "engine_value": 1.7199237945042406e+25,
+      "error_pct": 3.2501849290451117e+37,
+      "z": 2.031365580653194e+45,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 5.29177210544e-11,
+      "bar_pct": 1.6000000000000004e-08
+    },
+    {
+      "i": 14,
+      "domain": "Atomic_Physics",
+      "name": "Wien_wavelength_displacement_law_constant",
+      "reply": "h*c/k_B",
+      "engine_value": 4.395941533296793e-11,
+      "error_pct": 99.99999999848299,
+      "z": 99999999.998483,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 2.897771955,
+      "bar_pct": 1e-06
+    },
+    {
+      "i": 17,
+      "domain": "Atomic_Physics",
+      "name": "impedance_of_free_space",
+      "reply": "(4*pi*c)/(mu_0*e^2)",
+      "engine_value": 1239624.631393333,
+      "error_pct": 328948.2839477943,
+      "z": 21929885596519.62,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 376.730313412,
+      "bar_pct": 1.5e-08
+    },
+    {
+      "i": 18,
+      "domain": "Atomic_Physics",
+      "name": "Hartree_energy",
+      "reply": "pi*m_e*c^2/2",
+      "engine_value": 1.2005139058104121e-30,
+      "error_pct": 99.99999999997246,
+      "z": 909090909090.6586,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 4.359744722206e-18,
+      "bar_pct": 1.1000000000000002e-10
+    },
+    {
+      "i": 19,
+      "domain": "Atomic_Physics",
+      "name": "atomic_mass_of_carbon-12",
+      "reply": "12*m_u",
+      "engine_value": 1.9926468827039998e-26,
+      "error_pct": 100.0,
+      "z": 3225806451.612903,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 0.0120000000126,
+      "bar_pct": 3.1e-08
+    },
+    {
+      "i": 20,
+      "domain": "Atomic_Physics",
+      "name": "Compton_wavelength",
+      "reply": "h/(m_e*c)",
+      "engine_value": 0.0007941231788172276,
+      "error_pct": 32729663536.474537,
+      "z": 1.0557955979507916e+18,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 2.42631023538e-12,
+      "bar_pct": 3.1e-08
+    },
+    {
+      "i": 21,
+      "domain": "Atomic_Physics",
+      "name": "classical_electron_radius",
+      "reply": "h/(4*pi*e^2)",
+      "engine_value": 7.136038781724604e-36,
+      "error_pct": 100.0,
+      "z": 2127659574.4680853,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 2.8179403205e-15,
+      "bar_pct": 4.7e-08
+    },
+    {
+      "i": 22,
+      "domain": "Atomic_Physics",
+      "name": "Thomson_cross_section",
+      "reply": "4*pi*alpha^2/m_e^2",
+      "engine_value": 9.893963497687049e+54,
+      "error_pct": 1.4872641734855117e+85,
+      "z": 1.5992087886940985e+92,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 6.6524587051e-29,
+      "bar_pct": 9.3e-08
+    },
+    {
+      "i": 23,
+      "domain": "Atomic_Physics",
+      "name": "Bohr_magneton",
+      "reply": "m_e*e*h/(4*pi*epsilon_0*m_p^2)",
+      "engine_value": 5.270906862816825,
+      "error_pct": 5.6835250614093205e+25,
+      "z": 1.8333951810997808e+33,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 9.2740100657e-24,
+      "bar_pct": 3.1e-08
+    },
+    {
+      "i": 24,
+      "domain": "Atomic_Physics",
+      "name": "nuclear_magneton",
+      "reply": "m_e*e^2/hbar^2*alpha",
+      "engine_value": 4.892094683610309e+35,
+      "error_pct": 9.685813006692533e+63,
+      "z": 3.1244558086104946e+71,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": 5.0507837393e-27,
+      "bar_pct": 3.1e-08
+    },
+    {
+      "i": 26,
+      "domain": "None",
+      "name": "DES_Y3_w0",
+      "reply": "-P_new/m_H^2",
+      "engine_value": -1.9142698342739444e-05,
+      "error_pct": 99.99804266888111,
+      "z": 33.332680889627035,
+      "inside_bar": false,
+      "kill_reason": "outside_published_uncertainty",
+      "measured": -0.978,
+      "bar_pct": 3.0
+    }
+  ],
+  "send": false,
+  "promoted": false
+}

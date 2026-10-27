@@ -2,6 +2,40 @@
 
 Measured on 21 Oct 2026, after the tables in [FINDINGS.md](FINDINGS.md). Same machine, same `schedutil` governor, same mitigations, same Ubuntu 26.04.1. The OS was not replaced. The newest pass is first. The sections under it are the earlier passes, with their recorded numbers left as they were.
 
+## Published names on the same printed lines
+
+Recorded on 26 Oct 2026. The lines are the 45 replies from the section below. There was no new llama run. The dial learned names that were already measured in the repos, and the pinned engine scored those same replies again. The earlier 25 gate passes, including vacuum magnetic permeability, kept the same values. Nothing was sent and nothing was promoted.
+
+The measured column of `codata_full_table_open_benchmark.json` now supplies `h`, `m_e`, `m_p`, `m_n`, `m_mu`, `m_u`, `mu_0`, `epsilon_0`, `k_b`, and `c_light`. `hbar` is that Planck value divided by `2*pi`. `nu_cs` is the Cs-133 hyperfine frequency, 9192631770 Hz, from the atomic-physics table. `m_h` is 125.25, the formula point whose name and property are both `m_H`. The hub file was not edited. Bare `c` and bare `g` stay Catalan's constant, because the hub normalizer already rewrites those letters. `c_light` is the speed of light. `m_nu`, `g_p_eff`, `g_cosm`, `g_wave`, `g_dark`, `g_quantum`, `p_cosm`, and `p_rad` are not measured constants in the repos, so five replies stay rejected.
+
+Fifteen replies that the gate used to reject now score. All fifteen are outside the bar. The closest is DES Y3 w0, `-P_new/m_H^2`, z 33.33. Lines that contain a bare `c` were scored with Catalan's constant. The full values are in [results/gemma4_q6_names.json](results/gemma4_q6_names.json). The z figures here are four significant digits.
+
+| # | Name | Reply | Outcome |
+|--:|--|--|--|
+| 2 | inverse_fine-structure_constant | `2*pi^2*e^2/m_e^2*alpha` | outside, z 6.912e+66 |
+| 4 | proton_mass | `m_e*11*sqrt(pi)/e^3` | outside, z 3.224e+09 |
+| 7 | atomic_mass_constant | `m_p*e/c^2` | outside, z 7.302e+09 |
+| 8 | Rydberg_constant | `h^2*e^4/(m_e^3*c)` | outside, z 2.868e+30 |
+| 9 | Bohr_radius | `h/(2*pi*m_e^2*e^2)` | outside, z 2.031e+45 |
+| 14 | Wien_wavelength_displacement_law_constant | `h*c/k_B` | outside, z 1e+08 |
+| 17 | impedance_of_free_space | `(4*pi*c)/(mu_0*e^2)` | outside, z 2.193e+13 |
+| 18 | Hartree_energy | `pi*m_e*c^2/2` | outside, z 9.091e+11 |
+| 19 | atomic_mass_of_carbon-12 | `12*m_u` | outside, z 3.226e+09 |
+| 20 | Compton_wavelength | `h/(m_e*c)` | outside, z 1.056e+18 |
+| 21 | classical_electron_radius | `h/(4*pi*e^2)` | outside, z 2.128e+09 |
+| 22 | Thomson_cross_section | `4*pi*alpha^2/m_e^2` | outside, z 1.599e+92 |
+| 23 | Bohr_magneton | `m_e*e*h/(4*pi*epsilon_0*m_p^2)` | outside, z 1.833e+33 |
+| 24 | nuclear_magneton | `m_e*e^2/hbar^2*alpha` | outside, z 3.124e+71 |
+| 26 | DES_Y3_w0 | `-P_new/m_H^2` | outside, z 33.33 |
+
+| # | Name | Still unknown |
+|--:|--|--|
+| 5 | neutron_mass | `m_nu` |
+| 12 | Newtonian_constant_of_gravitation | `g_p_eff` |
+| 31 | w0_bao | `p_cosm` |
+| 33 | Omega_Lambda | `p_cosm` |
+| 43 | w0_BAO | `p_rad` |
+
 ## Forty-five published rows on Q6
 
 Measured on 22 Oct 2026, after the Q6 section below. Same Mac mini, same `schedutil` governor, same mitigations, same Q6_K file, same epoch-7 adapter at user scale 1. The governor was `schedutil` at the start and at the end. The weight file and the adapter are the files named in the section below. They are not in git.
