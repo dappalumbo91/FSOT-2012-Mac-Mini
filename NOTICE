@@ -1,0 +1,12 @@
+FSOT-2012-Mac-Mini
+Copyright 2026 Damian Arthur Palumbo
+
+This product contains FSOT measurements and benchmarks on Late 2012
+Mac mini hardware (Macmini6,1).
+This repository is part of the FSOT (Fluid Spacetime Omni-Theory) family.
+Theory authority is vendor/fsot_compute.py in
+https://github.com/dappalumbo91/FSOT-2.1-Lean (pin AEB2AD), also by
+Damian Arthur Palumbo and licensed under the Apache License 2.0.
+
+The iGPU benchmark loads the system OpenGL / EGL libraries (libGL.so.1,
+libEGL.so.1) at runtime; they are not bundled.
