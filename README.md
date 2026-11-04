@@ -1,5 +1,9 @@
 # FSOT on 2012 Mac mini hardware
 
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+Theory authority: [FSOT-2.1-Lean](https://github.com/dappalumbo91/FSOT-2.1-Lean) at pin **AEB2AD**.
+
 Measured FSOT scalar throughput and a `plant_host_v1` reading on this machine: Apple Macmini6,1 (Late 2012), Intel Core i5-3210M, Intel HD Graphics 4000, Ubuntu 26.04.1 LTS.
 
 The numbers are in [FINDINGS.md](FINDINGS.md). Raw records:
